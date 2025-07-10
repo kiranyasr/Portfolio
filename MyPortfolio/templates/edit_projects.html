@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}Manage Projects{% endblock %}
+{% block content %}
+<h2>Add New Project</h2>
+<form method="POST">
+  <input type="text" name="title" placeholder="Project Title" required><br>
+  <input type="text" name="description" placeholder="Description" required><br>
+  <input type="text" name="tech_stack" placeholder="Tech Stack" required><br>
+  <input type="url" name="github" placeholder="GitHub Link"><br>
+  <input type="url" name="demo" placeholder="Demo Link"><br>
+  <button type="submit">Add Project</button>
+</form>
+
+<h2>Existing Projects</h2>
+<ul>
+  {% for project in projects %}
+  <li>
+    <strong>{{ project.title }}</strong>
+    <a href="/admin/projects/delete/{{ project.id }}">Delete</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

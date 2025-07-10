@@ -1,0 +1,101 @@
+/* style.css */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.navbar {
+  background: #222;
+  color: #fff;
+  padding: 1rem 0;
+}
+
+.logo {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: -1.8rem;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links li a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  color: #111;
+}
+
+main {
+  padding: 2rem 0;
+}
+
+.project-card {
+  background-color: white;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid #007bff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+}
+
+form input, form textarea, form button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #0056b3;
+}
+
+.flash {
+  list-style: none;
+  padding: 1rem;
+  background-color: #ffeeba;
+  border-left: 5px solid #ffdd57;
+  margin-bottom: 1rem;
+}
+
+.footer {
+  text-align: center;
+  background-color: #222;
+  color: #fff;
+  padding: 1rem;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  margin-top: 2rem;
+}

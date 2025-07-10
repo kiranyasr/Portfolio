@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Home - Kiranya S R{% endblock %}
+{% block content %}
+
+<header class="hero">
+  <div class="hero-text">
+    <h1>Kiranya S R</h1>
+    <p>Aspiring Software Engineer | AI/ML Enthusiast | Web Developer</p>
+    <a href="{{ url_for('static', filename='resume.pdf') }}" class="btn">Download Resume</a>
+  </div>
+  <div class="hero-image">
+    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Profile Picture">
+  </div>
+</header>
+
+<section id="about">
+  <h2>About Me</h2>
+  <p>I'm a passionate IT student specializing in Artificial Intelligence and Machine Learning. I enjoy building full-stack web apps and solving real-world problems using Python, Flask, and data science tools.</p>
+  <ul>
+    <li><strong>College:</strong> XYZ Institute of Technology</li>
+    <li><strong>Branch:</strong> B.Tech – AI & ML</li>
+    <li><strong>CGPA:</strong> 8.5 / 10</li>
+    <li><strong>Graduation:</strong> 2026</li>
+  </ul>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <ul>
+    <li><strong>Languages:</strong> Python, Java, C++, JavaScript</li>
+    <li><strong>Web:</strong> HTML, CSS, Bootstrap, Flask</li>
+    <li><strong>Data Science:</strong> Pandas, NumPy, Scikit-Learn, TensorFlow</li>
+    <li><strong>Tools:</strong> Git, GitHub, MySQL, SQLite, VS Code, Linux</li>
+  </ul>
+</section>
+
+{% endblock %}

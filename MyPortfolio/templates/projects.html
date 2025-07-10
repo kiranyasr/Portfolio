@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Projects{% endblock %}
+{% block content %}
+<h2>Projects</h2>
+{% for p in projects %}
+<div class="project-card">
+  <h3>{{ p.title }}</h3>
+  <p>{{ p.description }}</p>
+  <p><strong>Tech:</strong> {{ p.tech_stack }}</p>
+  <a href="{{ p.github }}" target="_blank">GitHub</a>
+  {% if p.demo %}| <a href="{{ p.demo }}" target="_blank">Live Demo</a>{% endif %}
+</div>
+{% endfor %}
+{% endblock %}
