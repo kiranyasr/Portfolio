@@ -1,6 +1,92 @@
 {% extends "layout.html" %}
 {% block title %}Resume{% endblock %}
 {% block content %}
-<h2>Resume</h2>
-<a href="{{ url_for('static', filename='resume.pdf') }}" download class="btn">Download Resume</a>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/resume.css') }}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<div class="resume-wrapper">
+  <div class="resume-left">
+    <div class="section">
+      <h3>Software Skills</h3>
+      <ul class="skill-list">
+        <li>Java Programming</li>
+        <li>Python Programming</li>
+        <li>C Programming</li>
+        <li>SQL Programming</li>
+        <li>Web Development</li>
+        <li>Excel</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>Languages</h3>
+      <ul class="lang-list">
+        <li>English</li>
+        <li>Tamil</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>Personal Skills</h3>
+      <p>Creativity - Team Work - Organisation</p>
+    </div>
+  </div>
+
+  <div class="resume-mid">
+    <div class="section">
+      <h3>Experience & Projects</h3>
+      <div class="timeline">
+        <div class="point">
+          <div class="circle">2024</div>
+          <div class="info">Signup Page - Secure user authentication with HTML, CSS & JS</div>
+        </div>
+        <div class="point">
+          <div class="circle">2024</div>
+          <div class="info">Travel Website - Interactive design using JavaScript</div>
+        </div>
+        <div class="point">
+          <div class="circle">2024</div>
+          <div class="info">Food App UI/UX - Designed with Figma</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Education</h3>
+      <p><strong>B.Tech – AIML</strong><br>Bannari Amman Institute of Technology<br>CGPA: 7.97<br>2023 – 2027</p>
+      <p><strong>12th – Grade: 89.9%</strong><br>Vellalar Matric Hr Sec School</p>
+    </div>
+  </div>
+
+  <div class="resume-right">
+    <div class="section">
+      <h3>What Can I Do?</h3>
+      <ul>
+        <li>AI-powered automation</li>
+        <li>Web & UI Design</li>
+        <li>Career/Resume Tools</li>
+        <li>Smart Document Systems</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>Certifications</h3>
+      <ul>
+        <li>MongoDB Database Connectivity</li>
+        <li>Python using AI Workshop</li>
+        <li>Internet of Things Bootcamp</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>Hobbies & Interests</h3>
+      <div class="hobbies-list">
+        <span>Painting</span>
+        <span>Drawing</span>
+        <span>Movies</span>
+        <span>Coding</span>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

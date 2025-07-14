@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}Education{% endblock %}
+{% block content %}
+<section class="education-section" style="margin-top: 80px;">
+  <div class="edu-container">
+    <div class="edu-left">
+      <h2 class="edu-title">EDUCATION</h2>
+
+      {% set educations = [
+        {
+          'period': '2020 – 2023',
+          'institution': 'Vellalar Matric Hr.Sec.School',
+          'details': [
+            'SSLC – 10th Standard<br>Score: 100%',
+            'HSC – 12th Standard<br>Score: 89%'
+          ]
+        },
+        {
+          'period': '2023 – Present',
+          'institution': 'Bannari Amman Institute of Technology',
+          'details': [
+            'Bachelor of Engineering (AI & ML)<br>CGPA: 8.0 / 10'
+          ]
+        }
+      ] %}
+
+      {% for edu in educations %}
+      <div class="edu-block">
+        <h3>{{ edu.period }}</h3>
+        <h4>{{ edu.institution }}</h4>
+        {% for line in edu.details %}
+        <p>{{ line|safe }}</p>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="edu-right">
+      <img src="{{ url_for('static', filename='images/education.jpg') }}" alt="Education Image">
+    </div>
+  </div>
+</section>
+{% endblock %}

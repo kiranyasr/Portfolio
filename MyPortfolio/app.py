@@ -31,6 +31,10 @@ def projects():
         {'id': row[0], 'title': row[1], 'description': row[2], 'tech_stack': row[3], 'github': row[4], 'demo': row[5]}
         for row in rows
     ])
+# -----------Education -------
+@app.route('/education')
+def education():
+    return render_template('education.html')
 
 # ---------- Resume ----------
 @app.route('/resume')

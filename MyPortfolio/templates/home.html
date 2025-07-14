@@ -1,6 +1,21 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
+
 {% block content %}
-<h1>Welcome to My Portfolio</h1>
-<p>Explore my work, skills, and journey as an aspiring software engineer.</p>
+<section class="hero-section">
+  <div class="hero-container">
+    <div class="hero-text">
+      <h1 class="hero-name">KIRANYA <span>S R</span></h1>
+      <p class="hero-role">AI & ML Enthusiast | Tech Explorer</p>
+      <div class="hero-buttons">
+        <a href="{{ url_for('static', filename='resume.pdf') }}" class="hero-btn">Resume</a>
+        <a href="{{ url_for('projects') }}" class="hero-btn-outline">Portfolio</a>
+      </div>
+      <div class="hero-socials">
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

@@ -1,12 +1,15 @@
-/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* Base & Reset */
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: #0f1117; /* Unified background */
+  color: #e0e0e0;
 }
 
+/* Container */
 .container {
   width: 90%;
   max-width: 1100px;
@@ -14,88 +17,312 @@ body {
   padding: 1rem;
 }
 
+/* Navbar */
 .navbar {
-  background: #222;
-  color: #fff;
-  padding: 1rem 0;
+  background-color: #141824;
+  color: #ffffff;
+  padding: 0.6rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-  margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-left: 1rem;
 }
 
 .nav-links {
   list-style: none;
-  padding: 0;
   display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: -1.8rem;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links li a {
-  color: white;
+  color: #e0e0e0;
   text-decoration: none;
-  font-weight: 500;
+  padding-bottom: 4px;
+  transition: color 0.3s, border-bottom 0.3s;
 }
 
 .nav-links li a:hover {
-  text-decoration: underline;
+  color: #4a90e2;
+  border-bottom: 2px solid #4a90e2;
 }
 
-h1, h2, h3 {
-  color: #111;
+.nav-links li a.active {
+  color: #4a90e2;
+  font-weight: 600;
+  border-bottom: 2px solid #4a90e2;
 }
 
-main {
-  padding: 2rem 0;
+/* Typography */
+h1, h2, h3, h4 {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  margin: 0 0 0.5rem;
 }
 
+main.container {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('../images/hero-bg.png') no-repeat center center/cover;
+  overflow: hidden;
+}
+
+.hero-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  padding: 0 8%;
+  box-sizing: border-box;
+}
+
+.hero-text {
+  color: #fff;
+  max-width: 600px;
+}
+
+.hero-name {
+  font-size: 4rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.hero-name span {
+  color: #4a90e2;
+}
+
+.hero-role {
+  font-size: 1.5rem;
+  color: #ccc;
+  margin: 15px 0 30px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.hero-btn,
+.hero-btn-outline {
+  padding: 12px 28px;
+  font-size: 1rem;
+  border-radius: 24px;
+  border: 2px solid #4a90e2;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+}
+
+.hero-btn {
+  background-color: #4a90e2;
+  color: #000;
+}
+
+.hero-btn:hover {
+  background-color: #1e6eb7;
+  color: #fff;
+}
+
+.hero-btn-outline {
+  background: transparent;
+  color: #fff;
+}
+
+.hero-btn-outline:hover {
+  background-color: #4a90e2;
+  color: #000;
+}
+
+.hero-socials {
+  display: flex;
+  gap: 15px;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.hero-socials a {
+  color: #ffffff;
+  transition: color 0.3s;
+}
+
+.hero-socials a:hover {
+  color: #4a90e2;
+}
+
+/* Project Cards */
 .project-card {
-  background-color: white;
+  background-color: #1c1f2e;
   padding: 1rem;
-  margin: 1rem 0;
-  border-left: 4px solid #007bff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin: 1.5rem 0;
+  border-left: 4px solid #4a90e2;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
 }
 
-form input, form textarea, form button {
+/* Forms */
+form input,
+form textarea,
+form button {
   display: block;
   width: 100%;
   padding: 0.75rem;
   margin-bottom: 1rem;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid #444;
+  background-color: #1c1f2b;
+  color: #e0e0e0;
 }
 
 form button {
-  background: #007bff;
+  background: #4a90e2;
   color: white;
   border: none;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 form button:hover {
-  background: #0056b3;
+  background: #357ab7;
 }
 
+/* Flash Message */
 .flash {
   list-style: none;
   padding: 1rem;
-  background-color: #ffeeba;
-  border-left: 5px solid #ffdd57;
+  background-color: #333;
+  border-left: 5px solid #ffc107;
   margin-bottom: 1rem;
+  color: #f1f1f1;
 }
 
-.footer {
-  text-align: center;
-  background-color: #222;
-  color: #fff;
-  padding: 1rem;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  margin-top: 2rem;
+/* Education Section */
+.education-section {
+  background-color: #0f1117;
+  color: #e0e0e0;
+  padding: 60px 0 30px;
+  min-height: 100vh;
+}
+
+.edu-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.edu-left {
+  flex: 1;
+  min-width: 300px;
+}
+
+.edu-right {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edu-right img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.edu-title {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  border-left: 5px solid #4a90e2;
+  padding-left: 20px;
+  color: #4a90e2;
+}
+
+.edu-block {
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: #222b3a;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.3s ease-in-out;
+}
+
+.edu-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.edu-block h3 {
+  font-size: 18px;
+  color: #ffc107;
+  margin-bottom: 10px;
+}
+
+.edu-block h4 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+
+.edu-block p {
+  font-size: 15px;
+  margin: 4px 0;
+  color: #bbb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .hero-name {
+    font-size: 2.5rem;
+  }
+
+  .hero-role {
+    font-size: 1.1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .edu-container {
+    flex-direction: column;
+    padding: 0;
+  }
 }

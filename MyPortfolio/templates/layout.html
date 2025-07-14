@@ -5,29 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}My Portfolio{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <!-- Font Awesome for social icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
+
   <!-- Navbar -->
-  <header>
-    <nav class="navbar">
-      <div class="container">
-        <h1 class="logo">Kiranya S R</h1>
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/projects">Projects</a></li>
-          <li><a href="/resume">Resume</a></li>
-          <li><a href="/contact">Contact</a></li>
-          {% if session.admin %}
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li><a href="/logout">Logout</a></li>
-          {% else %}
-            <li><a href="/login">Admin</a></li>
-          {% endif %}
-        </ul>
-      </div>
-    </nav>
-  </header>
+  <nav class="navbar">
+    <div class="nav-wrapper container">
+      <h1 class="logo">Kiranya S R</h1>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+        <li><a href="{{ url_for('about') }}" class="{% if request.path == '/about' %}active{% endif %}">About</a></li>
+        <li><a href="{{ url_for('education') }}" class="{% if request.path == '/education' %}active{% endif %}">Education</a></li>
+        <li><a href="{{ url_for('projects') }}" class="{% if request.path == '/projects' %}active{% endif %}">Projects</a></li>
+        <li><a href="{{ url_for('resume') }}" class="{% if request.path == '/resume' %}active{% endif %}">Resume</a></li>
+        <li><a href="{{ url_for('contact') }}" class="{% if request.path == '/contact' %}active{% endif %}">Contact</a></li>
+        {% if session.admin %}
+          <li><a href="{{ url_for('dashboard') }}" class="{% if request.path == '/dashboard' %}active{% endif %}">Dashboard</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+          <li><a href="{{ url_for('login') }}" class="{% if request.path == '/login' %}active{% endif %}">Admin</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
 
   <!-- Flash messages -->
   <main class="container">
@@ -44,9 +46,5 @@
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; 2025 Kiranya S R. All rights reserved.</p>
-  </footer>
 </body>
 </html>

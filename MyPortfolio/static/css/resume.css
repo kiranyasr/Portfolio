@@ -1,0 +1,131 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f1724;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.resume-wrapper {
+  display: flex;
+  padding: 40px;
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+  background: url("../img/dark-bg.png") no-repeat center center;
+  background-size: cover;
+}
+
+.resume-left, .resume-mid, .resume-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.section h3 {
+  font-size: 18px;
+  color: #00bfff;
+  border-bottom: 2px solid #00bfff;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.skill-list, .lang-list, .section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.skill-list li, .lang-list li, .section ul li {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.bar {
+  width: 100%;
+  height: 6px;
+  background-color: #2e3b4e;
+  border-radius: 4px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.bar div {
+  height: 100%;
+  background-color: #00bfff;
+  border-radius: 4px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.point {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #00bfff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.info {
+  font-size: 14px;
+  color: #ddd;
+}
+
+.icons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #ffffff;
+}
+
+.icons i {
+  margin-right: 10px;
+  color: #00bfff;
+}
+
+.section a {
+  color: #00bfff;
+  text-decoration: none;
+}
+
+.section a:hover {
+  text-decoration: underline;
+} 
+
+/* Hobbies written text */
+.hobbies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #ddd;
+} 
+
+.hobbies-list span::before {
+  content: "\2022";
+  color: #00bfff;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
