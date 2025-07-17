@@ -1,8 +1,28 @@
 {% extends "layout.html" %}
-{% block title %}Contact{% endblock %}
+{% block title %}Projects{% endblock %}
 {% block content %}
-<h2>Contact Me</h2>
-<p>Email: yourmail@example.com</p>
-<p>LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank">Profile</a></p>
-<p>GitHub: <a href="https://github.com/yourgithub" target="_blank">GitHub</a></p>
+<h2 class="section-title">My Projects</h2>
+<div class="project-container">
+  {% for p in projects %}
+  <div class="project-card" onclick="showPopup('{{ p.id }}')">
+    <img src="{{ p.image }}" alt="{{ p.title }}">
+    <h3>{{ p.title }}</h3>
+  </div>
+
+  <!-- Popup -->
+  <div id="popup-{{ p.id }}" class="popup-overlay">
+    <div class="popup-content">
+      <span class="close-btn" onclick="hidePopup('{{ p.id }}')">&times;</span>
+      <h2>{{ p.title }}</h2>
+      <p><strong>Overview:</strong> {{ p.description }}</p>
+      <p><strong>Outcome:</strong> {{ p.outcome }}</p>
+      <p><strong>Tech Stack:</strong> {{ p.tech_stack }}</p>
+      <p><strong>Tools Used:</strong> {{ p.tools }}</p>
+      <p><strong>Use Case:</strong> {{ p.use_case }}</p>
+      {% if p.github %}<a href="{{ p.github }}" target="_blank">GitHub</a>{% endif %}
+      {% if p.demo %} | <a href="{{ p.demo }}" target="_blank">Live Demo</a>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}

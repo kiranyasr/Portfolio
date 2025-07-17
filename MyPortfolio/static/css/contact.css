@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #111;
+  color: #fff;
+}
+
+.contact-section {
+  text-align: center;
+  padding: 40px 20px 60px;
+  background-color: #111;
+}
+
+.contact-section h1 {
+  font-size: 42px;
+  margin-bottom: 40px;
+  margin-top: 0;
+  color: #fff;
+}
+
+.contact-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.contact-card {
+  background-color: #1b1b1b;
+  padding: 30px 20px;
+  border-radius: 12px;
+  width: 40%;
+  min-width: 250px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.icon {
+  font-size: 36px;
+  color: #d4af37;
+  margin-bottom: 15px;
+}
+
+.contact-card h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.contact-card p {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.contact-card a:hover h4 {
+  color: #d4af37;
+}
+
+.contact-card a:hover p {
+  color: #ccc;
+}
+
+/* Responsive for mobile */
+@media screen and (max-width: 768px) {
+  .contact-card {
+    width: 100%;
+  }
+}

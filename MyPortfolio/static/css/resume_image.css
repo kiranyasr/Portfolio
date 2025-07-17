@@ -1,0 +1,57 @@
+/* Default screen view */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #000;
+}
+
+.resume-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.resume-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+/* Print styles */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #000 !important;
+  }
+
+  .resume-image-container {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: #000 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .resume-image {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    transform: none !important;
+  }
+}

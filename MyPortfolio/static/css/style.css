@@ -5,7 +5,7 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #0f1117; /* Unified background */
+  background-color: #0f1117;
   color: #e0e0e0;
 }
 
@@ -21,7 +21,7 @@ body {
 .navbar {
   background-color: #141824;
   color: #ffffff;
-  padding: 0.6rem 0;
+  padding: 0.4rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -31,10 +31,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 50px;
 }
 
 .logo {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-left: 1rem;
 }
@@ -50,7 +51,8 @@ body {
 .nav-links li a {
   color: #e0e0e0;
   text-decoration: none;
-  padding-bottom: 4px;
+  padding-bottom: 2px;
+  font-size: 0.95rem;
   transition: color 0.3s, border-bottom 0.3s;
 }
 
@@ -169,16 +171,6 @@ main.container {
 
 .hero-socials a:hover {
   color: #4a90e2;
-}
-
-/* Project Cards */
-.project-card {
-  background-color: #1c1f2e;
-  padding: 1rem;
-  margin: 1.5rem 0;
-  border-left: 4px solid #4a90e2;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
 }
 
 /* Forms */
@@ -300,7 +292,12 @@ form button:hover {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
-    padding: 1rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .nav-wrapper {
+    flex-direction: column;
+    height: auto;
   }
 
   .nav-links {

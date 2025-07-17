@@ -1,14 +1,56 @@
 {% extends "layout.html" %}
 {% block title %}Projects{% endblock %}
 {% block content %}
-<h2>Projects</h2>
-{% for p in projects %}
-<div class="project-card">
-  <h3>{{ p.title }}</h3>
-  <p>{{ p.description }}</p>
-  <p><strong>Tech:</strong> {{ p.tech_stack }}</p>
-  <a href="{{ p.github }}" target="_blank">GitHub</a>
-  {% if p.demo %}| <a href="{{ p.demo }}" target="_blank">Live Demo</a>{% endif %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+
+<h2 class="projects-heading">Projects</h2>
+
+<div class="projects-container">
+  {% for p in projects %}
+  <div class="project-card" onclick="openPopup({{ loop.index0 }})">
+    <img src="{{ p.image }}" alt="{{ p.title }}">
+    <h3>{{ p.title }}</h3>
+  </div>
+
+  <!-- Popup Modal -->
+  <div class="popup" id="popup-{{ loop.index0 }}">
+    <div class="popup-content" onclick="event.stopPropagation()">
+      <span class="close-btn" onclick="closePopup({{ loop.index0 }})">&times;</span>
+      <h2>{{ p.title }}</h2>
+      <p><strong>Description:</strong> {{ p.description }}</p>
+      <p><strong>Outcome:</strong> {{ p.outcome }}</p>
+      <p><strong>Tech Stack:</strong> {{ p.tech_stack }}</p>
+      <p><strong>Tools Used:</strong> {{ p.tools }}</p>
+      <p><strong>Use Case:</strong> {{ p.use_case }}</p>
+      {% if p.github %}
+        <a href="{{ p.github }}" target="_blank">GitHub</a>
+      {% endif %}
+      {% if p.demo %}
+        | <a href="{{ p.demo }}" target="_blank">Live Demo</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
 </div>
-{% endfor %}
+
+<script>
+  function openPopup(id) {
+    document.getElementById(`popup-${id}`).style.display = "flex";
+  }
+
+  function closePopup(id) {
+    document.getElementById(`popup-${id}`).style.display = "none";
+  }
+
+  window.addEventListener("click", function (e) {
+    const popups = document.querySelectorAll('.popup');
+    popups.forEach((popup, index) => {
+      if (e.target === popup) {
+        popup.style.display = "none";
+      }
+    });
+  });
+</script>
+
 {% endblock %}
