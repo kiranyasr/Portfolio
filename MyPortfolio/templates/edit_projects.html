@@ -1,23 +1,39 @@
 {% extends "layout.html" %}
 {% block title %}Manage Projects{% endblock %}
+
 {% block content %}
 <h2>Add New Project</h2>
-<form method="POST">
-  <input type="text" name="title" placeholder="Project Title" required><br>
-  <input type="text" name="description" placeholder="Description" required><br>
-  <input type="text" name="tech_stack" placeholder="Tech Stack" required><br>
-  <input type="url" name="github" placeholder="GitHub Link"><br>
-  <input type="url" name="demo" placeholder="Demo Link"><br>
+
+<form method="POST" enctype="multipart/form-data" class="project-form">
+  <input type="text" name="title" placeholder="Project Title" required>
+
+  <textarea name="description" placeholder="Project Description" rows="4" required></textarea>
+
+  <input type="text" name="tech_stack" placeholder="Tech Stack (e.g., Python, Flask)" required>
+  <input type="text" name="github" placeholder="GitHub Repository URL">
+  <input type="text" name="demo" placeholder="Live Demo URL">
+
+  <label for="image">Upload Project Image:</label>
+  <input type="file" name="image" accept="image/*" required>
+
+  <input type="text" name="outcome" placeholder="Outcome (e.g., Increased performance)">
+  <input type="text" name="tools" placeholder="Tools Used (e.g., VS Code, Figma)">
+  <input type="text" name="use_case" placeholder="Use Case (e.g., Portfolio Website)">
+
   <button type="submit">Add Project</button>
 </form>
 
+<hr>
+
 <h2>Existing Projects</h2>
-<ul>
+<ul class="project-list">
   {% for project in projects %}
-  <li>
-    <strong>{{ project.title }}</strong>
-    <a href="/admin/projects/delete/{{ project.id }}">Delete</a>
-  </li>
+    <li>
+      <strong>{{ project.title }}</strong>
+      <a href="/admin/projects/delete/{{ project.id }}" onclick="return confirm('Are you sure you want to delete this project?');">Delete</a>
+    </li>
+  {% else %}
+    <li>No projects added yet.</li>
   {% endfor %}
 </ul>
 {% endblock %}

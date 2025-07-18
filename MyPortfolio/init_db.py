@@ -25,15 +25,19 @@ CREATE TABLE about (
 )
 ''')
 
-# Create projects table
+# Create projects table with all required columns
 c.execute('''
 CREATE TABLE projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT,
-    description TEXT,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
     tech_stack TEXT,
     github TEXT,
-    demo TEXT
+    demo TEXT,
+    image TEXT,
+    outcome TEXT,
+    tools TEXT,
+    use_case TEXT
 )
 ''')
 
