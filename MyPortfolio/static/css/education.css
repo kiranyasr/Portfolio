@@ -1,0 +1,81 @@
+.education-section {
+  padding: 40px 0 20px;
+  background-color: #0d0d0d;
+}
+
+.edu-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.edu-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  color: white;
+  border-bottom: 3px solid #ffc107;
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+/* Card Style */
+.edu-block {
+  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-left: 5px solid #ffc107;
+  border-radius: 12px;
+  padding: 25px 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease-in-out;
+}
+
+.edu-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(255, 193, 7, 0.2);
+}
+
+/* Typography */
+.edu-block h3 {
+  font-size: 16px;
+  color: #ffc107;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.edu-block h4 {
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.edu-block p {
+  font-size: 15px;
+  color: #ccc;
+  line-height: 1.6;
+  margin: 4px 0;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .edu-container {
+    width: 90%;
+  }
+
+  .edu-title {
+    font-size: 28px;
+  }
+
+  .edu-block {
+    padding: 20px;
+  }
+
+  .edu-block h4 {
+    font-size: 20px;
+  }
+}

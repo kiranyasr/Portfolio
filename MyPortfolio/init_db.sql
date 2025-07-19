@@ -9,10 +9,20 @@ CREATE TABLE users (
     password TEXT NOT NULL
 );
 
-CREATE TABLE about (
-    id INTEGER PRIMARY KEY,
-    bio TEXT
+CREATE TABLE IF NOT EXISTS about (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    dob TEXT,
+    address TEXT,
+    zip_code TEXT,
+    email TEXT,
+    phone TEXT,
+    photo TEXT,
+    bio TEXT,
+    projects_completed INTEGER,
+    resume_file TEXT
 );
+
 
 CREATE TABLE projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

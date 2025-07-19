@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}My Portfolio{% endblock %}</title>
+
+  <!-- Global CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+  <!-- Page-specific CSS -->
+  {% block head %}{% endblock %}
+
   <!-- Font Awesome for social icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
@@ -43,6 +49,7 @@
       {% endif %}
     {% endwith %}
 
+    <!-- Page Content -->
     {% block content %}{% endblock %}
   </main>
 

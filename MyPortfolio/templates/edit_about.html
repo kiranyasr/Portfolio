@@ -2,8 +2,35 @@
 {% block title %}Edit About{% endblock %}
 {% block content %}
 <h2>Edit About Section</h2>
-<form method="POST">
-  <textarea name="bio" rows="10" cols="80">{{ about['bio'] }}</textarea><br>
+<form method="POST" enctype="multipart/form-data">
+  <label>Bio:</label><br>
+  <textarea name="bio" required>{{ about.bio }}</textarea><br><br>
+
+  <label>Name:</label><br>
+  <input type="text" name="name" value="{{ about.name }}" required><br>
+
+  <label>DOB:</label><br>
+  <input type="text" name="dob" value="{{ about.dob }}" required><br>
+
+  <label>Address:</label><br>
+  <input type="text" name="address" value="{{ about.address }}" required><br>
+
+  <label>Zip Code:</label><br>
+  <input type="text" name="zip_code" value="{{ about.zip_code }}" required><br>
+
+  <label>Email:</label><br>
+  <input type="email" name="email" value="{{ about.email }}" required><br>
+
+  <label>Phone:</label><br>
+  <input type="text" name="phone" value="{{ about.phone }}" required><br>
+
+  <label>Projects Completed:</label><br>
+  <input type="number" name="projects_completed" value="{{ about.projects_completed }}" required><br>
+
+  <label>Profile Photo:</label><br>
+  <input type="file" name="photo"><br>
+  <img src="{{ url_for('static', filename='images/' + about.photo) }}" width="100"><br><br>
+
   <button type="submit">Update</button>
 </form>
 {% endblock %}

@@ -1,6 +1,40 @@
 {% extends "layout.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}About{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
 {% block content %}
-<h1>Welcome to My Portfolio</h1>
-<p>Explore my work, skills, and journey as an aspiring software engineer.</p>
+
+<div class="about-section">
+  <div class="about-image">
+    <img src="{{ url_for('static', filename='images/' ~ about.photo) }}" alt="Profile Photo">
+  </div>
+  <div class="about-info">
+    <h2>About Me</h2>
+    <p class="subtitle">{{ about.bio }}</p>
+    <ul>
+      <li><strong>Name:</strong> {{ about.name }}</li>
+      <li><strong>Date of Birth:</strong> {{ about.dob }}</li>
+      <li><strong>Address:</strong> {{ about.address }}</li>
+      <li><strong>Zip code:</strong> {{ about.zip_code }}</li>
+      <li><strong>Email:</strong> {{ about.email }}</li>
+      <li><strong>Phone:</strong> {{ about.phone }}</li>
+    </ul>
+    <div class="projects">{{ about.projects_completed }} Projects Complete</div>
+    <a class="download-btn" href="{{ url_for('static', filename='resume/Kiranya_Resume.pdf') }}" download>Download CV</a>
+  </div>
+</div>
+
+<hr>
+
+<h2 class="section-title">My Skills</h2>
+<div class="skills-grid">
+  {% for skill in skills %}
+  <div class="skill-card">
+    <img src="{{ url_for('static', filename='images/' ~ skill.image) }}" alt="{{ skill.name }}">
+    <h4>{{ skill.name }}</h4>
+  </div>
+  {% endfor %}
+</div>
+
 {% endblock %}

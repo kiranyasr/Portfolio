@@ -1,0 +1,149 @@
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 80px 60px;
+  font-family: 'Poppins', sans-serif;
+  flex-wrap: wrap;
+}
+
+.about-image {
+  flex: 1;
+  text-align: center;
+}
+
+.about-image img {
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.about-info {
+  flex: 1.5;
+  padding-left: 50px;
+}
+
+.about-info h2 {
+  font-size: 38px;
+  font-weight: 700;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 10px;
+}
+
+.about-info h2::before {
+  content: "About";
+  font-size: 80px;
+  color: #1a1a1a;
+  position: absolute;
+  top: -30px;
+  left: 0;
+  z-index: 1;
+  font-weight: 900;
+  opacity: 0.1;
+}
+
+.about-info h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #ffc107;
+  margin-top: 6px;
+}
+
+.about-info .subtitle {
+  margin: 10px 0 30px;
+  color: #c0c0c0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.about-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px;
+}
+
+.about-info ul li {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.about-info ul li strong {
+  display: inline-block;
+  width: 140px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.about-info .projects {
+  font-weight: 700;
+  color: #facc15;
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+
+.download-btn {
+  background-color: #facc15;
+  color: #000000;
+  font-weight: 600;
+  padding: 10px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: #e6b800;
+}
+
+.section-title {
+  text-align: center;
+  margin: 60px 0 40px;
+  color: white;
+  font-size: 28px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #ffc107;
+  margin: 10px auto 0;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  padding: 20px 60px 60px;
+}
+
+.skill-card {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.skill-card img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.skill-card h4 {
+  color: #ffcc00;
+  font-size: 18px;
+  margin: 0;
+}

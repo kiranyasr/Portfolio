@@ -16,7 +16,11 @@ body {
   margin-bottom: 40px;
   margin-top: 0;
   color: #fff;
+  display: inline-block;
+  border-bottom: 3px solid #ffc107; /* Yellow underline */
+  padding-bottom: 10px; /* Spacing between text and underline */
 }
+
 
 .contact-cards {
   display: flex;

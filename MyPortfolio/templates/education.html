@@ -1,9 +1,14 @@
 {% extends "layout.html" %}
 {% block title %}Education{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/education.css') }}">
+{% endblock %}
+
 {% block content %}
-<section class="education-section" style="margin-top: 80px;">
+<section class="education-section" >
   <div class="edu-container">
-    <div class="edu-left">
+    <div class="edu-left" style="width: 100%;">
       <h2 class="edu-title">EDUCATION</h2>
 
       {% set educations = [
@@ -33,10 +38,6 @@
         {% endfor %}
       </div>
       {% endfor %}
-    </div>
-
-    <div class="edu-right">
-      <img src="{{ url_for('static', filename='images/education.jpg') }}" alt="Education Image">
     </div>
   </div>
 </section>
