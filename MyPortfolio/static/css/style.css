@@ -79,99 +79,86 @@ main.container {
   padding-bottom: 40px;
 }
 
-/* Hero Section */
 .hero-section {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  background: url('../images/hero-bg.png') no-repeat center center/cover;
-  overflow: hidden;
+  background-color: #000;
+  color: #fff;
+  padding: 30px 50px; /* reduced top-bottom padding */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh; /* reduced height */
 }
 
 .hero-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
+  max-width: 1200px;
+  width: 100%;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 8%;
-  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 40px;
 }
 
-.hero-text {
-  color: #fff;
+.hero-left {
   max-width: 600px;
 }
 
-.hero-name {
-  font-size: 4rem;
-  font-weight: 700;
-  letter-spacing: 2px;
+.hero-left h4 {
+  color: #ffc107;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
-.hero-name span {
-  color: #4a90e2;
+.hero-left h1 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.hero-role {
-  font-size: 1.5rem;
+.hero-left h1 span {
+  color: #ffc107;
+}
+
+.hero-left p {
+  font-size: 18px;
+  line-height: 1.6;
   color: #ccc;
-  margin: 15px 0 30px;
+  margin-bottom: 30px;
 }
 
-.hero-buttons {
-  display: flex;
-  gap: 20px;
-}
-
-.hero-btn,
-.hero-btn-outline {
-  padding: 12px 28px;
-  font-size: 1rem;
-  border-radius: 24px;
-  border: 2px solid #4a90e2;
-  transition: all 0.3s ease-in-out;
+.btn {
+  background-color: #ffc107;
+  color: #000;
+  padding: 12px 30px;
+  border-radius: 50px;
   text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-.hero-btn {
-  background-color: #4a90e2;
-  color: #000;
+.btn:hover {
+  background-color: #e0a800;
 }
 
-.hero-btn:hover {
-  background-color: #1e6eb7;
-  color: #fff;
-}
-
-.hero-btn-outline {
-  background: transparent;
-  color: #fff;
-}
-
-.hero-btn-outline:hover {
-  background-color: #4a90e2;
-  color: #000;
-}
-
-.hero-socials {
+.hero-right {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 10px;
   display: flex;
-  gap: 15px;
-  font-size: 1.2rem;
-  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  background-color: #222;
 }
 
-.hero-socials a {
-  color: #ffffff;
-  transition: color 0.3s;
+.hero-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
-.hero-socials a:hover {
-  color: #4a90e2;
-}
 
 /* Forms */
 form input,
@@ -207,4 +194,150 @@ form button:hover {
   border-left: 5px solid #ffc107;
   margin-bottom: 1rem;
   color: #f1f1f1;
+}
+/* DARK DASHBOARD THEME */
+.dashboard-container.dark {
+  padding: 40px;
+  background-color: #121212;
+  min-height: 100vh;
+  color: #fff;
+}
+
+.dashboard-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+  color: #ffffff;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.card {
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  color: #f0db4f;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #cccccc;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #00bcd4;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #0097a7;
+}
+
+.logout-btn {
+  background-color: #e53935;
+}
+
+.logout-btn:hover {
+  background-color: #c62828;
+}
+/* ====== Global Reset ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ====== Body ====== */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #0b0c10;
+  color: #fff;
+}
+
+/* ====== Login Container ====== */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Push to top instead of center */
+  height: 100vh;
+  padding-top: 60px; /* Reduced space above */
+  background-color: #0b0c10;
+}
+
+/* ====== Login Box ====== */
+.login-box {
+  background-color: #1c1c1c;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ====== Heading ====== */
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #f9d923;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* ====== Input Fields ====== */
+.login-box input[type="text"],
+.login-box input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2e2e2e;
+  color: #ddd;
+  font-size: 15px;
+}
+
+/* Placeholder style */
+.login-box input::placeholder {
+  color: #999;
+}
+
+/* ====== Login Button ====== */
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  background-color: #00d1ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-box button:hover {
+  background-color: #00b0d6;
 }

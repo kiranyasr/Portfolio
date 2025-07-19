@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
 {% block title %}About{% endblock %}
+
 {% block head %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
 {% endblock %}
+
 {% block content %}
 
 <div class="about-section">
@@ -21,6 +23,8 @@
       <li><strong>Phone:</strong> {{ about.phone }}</li>
     </ul>
     <div class="projects">{{ about.projects_completed }} Projects Complete</div>
+
+    <!-- ✅ Resume Download Button -->
     <a class="download-btn" href="{{ url_for('static', filename='resume/Kiranya_Resume.pdf') }}" download>Download CV</a>
   </div>
 </div>

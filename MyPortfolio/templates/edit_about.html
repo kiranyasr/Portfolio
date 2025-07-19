@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Edit About{% endblock %}
 {% block content %}
+
 <h2>Edit About Section</h2>
+
 <form method="POST" enctype="multipart/form-data">
   <label>Bio:</label><br>
   <textarea name="bio" required>{{ about.bio }}</textarea><br><br>
@@ -9,7 +11,7 @@
   <label>Name:</label><br>
   <input type="text" name="name" value="{{ about.name }}" required><br>
 
-  <label>DOB:</label><br>
+  <label>Date of Birth:</label><br>
   <input type="text" name="dob" value="{{ about.dob }}" required><br>
 
   <label>Address:</label><br>
@@ -29,8 +31,16 @@
 
   <label>Profile Photo:</label><br>
   <input type="file" name="photo"><br>
+  {% if about.photo %}
   <img src="{{ url_for('static', filename='images/' + about.photo) }}" width="100"><br><br>
+  {% endif %}
 
   <button type="submit">Update</button>
 </form>
+
+<hr>
+
+<h2>Upload Resume</h2>
+<a href="{{ url_for('upload_resume') }}"><button>Upload Resume (PDF)</button></a>
+
 {% endblock %}
