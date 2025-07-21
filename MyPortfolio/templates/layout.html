@@ -25,7 +25,6 @@
         <li><a href="{{ url_for('about') }}" class="{% if request.path == '/about' %}active{% endif %}">About</a></li>
         <li><a href="{{ url_for('education') }}" class="{% if request.path == '/education' %}active{% endif %}">Education</a></li>
         <li><a href="{{ url_for('projects') }}" class="{% if request.path == '/projects' %}active{% endif %}">Projects</a></li>
-        <li><a href="{{ url_for('resume') }}" class="{% if request.path == '/resume' %}active{% endif %}">Resume</a></li>
         <li><a href="{{ url_for('contact') }}" class="{% if request.path == '/contact' %}active{% endif %}">Contact</a></li>
         {% if session.admin %}
           <li><a href="{{ url_for('dashboard') }}" class="{% if request.path == '/dashboard' %}active{% endif %}">Dashboard</a></li>
