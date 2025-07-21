@@ -68,9 +68,9 @@ def projects():
 def education():
     return render_template('education.html')
 
-@app.route('/resume')
-def resume():
-    return render_template('resume.html')
+
+
+
 
 @app.route('/contact')
 def contact():

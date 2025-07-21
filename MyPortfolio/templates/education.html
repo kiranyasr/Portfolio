@@ -12,6 +12,13 @@
       <h2 class="edu-title">EDUCATION</h2>
 
       {% set educations = [
+         {
+          'period': '2023 – Present',
+          'institution': 'Bannari Amman Institute of Technology',
+          'details': [
+            'Bachelor of Technology (AI & ML)<br>CGPA: 8.0 / 10'
+          ]
+        },
         {
           'period': '2020 – 2023',
           'institution': 'Vellalar Matric Hr.Sec.School',
@@ -19,14 +26,8 @@
             'SSLC – 10th Standard<br>Score: 100%',
             'HSC – 12th Standard<br>Score: 89%'
           ]
-        },
-        {
-          'period': '2023 – Present',
-          'institution': 'Bannari Amman Institute of Technology',
-          'details': [
-            'Bachelor of Engineering (AI & ML)<br>CGPA: 8.0 / 10'
-          ]
         }
+       
       ] %}
 
       {% for edu in educations %}
