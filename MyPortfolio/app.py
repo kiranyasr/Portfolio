@@ -2,19 +2,31 @@ from flask import Flask, render_template, request, redirect, session, flash, url
 import sqlite3
 import os
 
+# ------------------ App Setup ------------------
+
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'
 
-# Upload folder setup
-UPLOAD_FOLDER = os.path.join('static', 'images')
-RESUME_FOLDER = os.path.join('static', 'resume')
+# Get base directory of this file
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+# Set up static folders
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'images')
+RESUME_FOLDER = os.path.join(BASE_DIR, 'static', 'resume')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESUME_FOLDER, exist_ok=True)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['RESUME_FOLDER'] = RESUME_FOLDER
 
-# ----------------- ROUTES -----------------
+# Full path to the database
+DATABASE_PATH = os.path.join(BASE_DIR, 'database.db')
+
+# Database connection helper
+def get_db_connection():
+    return sqlite3.connect(DATABASE_PATH)
+
+# ------------------ ROUTES ------------------
 
 @app.route('/')
 def home():
@@ -22,7 +34,7 @@ def home():
 
 @app.route('/about')
 def about():
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     c = conn.cursor()
     c.execute('SELECT bio, name, dob, address, zip_code, email, phone, projects_completed, photo FROM about WHERE id=1')
     row = c.fetchone()
@@ -30,7 +42,7 @@ def about():
         'bio': row[0], 'name': row[1], 'dob': row[2], 'address': row[3],
         'zip_code': row[4], 'email': row[5], 'phone': row[6],
         'projects_completed': row[7], 'photo': row[8]
-    }
+    } if row else {}
     c.execute('SELECT name, image FROM skills')
     skills = [{'name': s[0], 'image': s[1]} for s in c.fetchall()]
     conn.close()
@@ -38,7 +50,7 @@ def about():
 
 @app.route('/projects')
 def projects():
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     c = conn.cursor()
     c.execute('SELECT * FROM projects')
     rows = c.fetchall()
@@ -69,7 +81,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        conn = sqlite3.connect('database.db')
+        conn = get_db_connection()
         c = conn.cursor()
         c.execute('SELECT * FROM users WHERE username=? AND password=?', (username, password))
         user = c.fetchone()
@@ -95,11 +107,13 @@ def dashboard():
         return redirect('/login')
     return render_template('dashboard.html')
 
+# ------------------ Admin: About ------------------
+
 @app.route('/admin/about/edit', methods=['GET', 'POST'])
 def edit_about():
     if not session.get('admin'):
         return redirect('/login')
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     c = conn.cursor()
     if request.method == 'POST':
         data = {
@@ -137,11 +151,13 @@ def edit_about():
         'projects_completed': about[7], 'photo': about[8]
     })
 
+# ------------------ Admin: Skills ------------------
+
 @app.route('/admin/skills/edit', methods=['GET', 'POST'])
 def edit_skills():
     if not session.get('admin'):
         return redirect('/login')
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     c = conn.cursor()
     if request.method == 'POST':
         name = request.form['name']
@@ -163,7 +179,7 @@ def edit_skills():
 def delete_skill(skill_id):
     if not session.get('admin'):
         return redirect('/login')
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     c = conn.cursor()
     c.execute('DELETE FROM skills WHERE id=?', (skill_id,))
     conn.commit()
@@ -171,11 +187,13 @@ def delete_skill(skill_id):
     flash('Skill deleted.')
     return redirect('/admin/skills/edit')
 
+# ------------------ Admin: Projects ------------------
+
 @app.route('/admin/projects/edit', methods=['GET', 'POST'])
 def edit_projects():
     if not session.get('admin'):
         return redirect('/login')
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     c = conn.cursor()
     if request.method == 'POST':
         title = request.form['title']
@@ -202,15 +220,13 @@ def edit_projects():
     c.execute('SELECT * FROM projects')
     rows = c.fetchall()
     conn.close()
-    return render_template('edit_projects.html', projects=[
-        {'id': row[0], 'title': row[1]} for row in rows
-    ])
+    return render_template('edit_projects.html', projects=[{'id': row[0], 'title': row[1]} for row in rows])
 
 @app.route('/admin/projects/delete/<int:pid>')
 def delete_project(pid):
     if not session.get('admin'):
         return redirect('/login')
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     c = conn.cursor()
     c.execute('DELETE FROM projects WHERE id=?', (pid,))
     conn.commit()
@@ -218,7 +234,7 @@ def delete_project(pid):
     flash('Project deleted.')
     return redirect('/admin/projects/edit')
 
-# ------------------ ✅ Resume Upload ------------------
+# ------------------ Admin: Resume ------------------
 
 @app.route('/admin/upload_resume', methods=['GET', 'POST'])
 def upload_resume():
@@ -236,25 +252,22 @@ def upload_resume():
             return redirect('/admin/upload_resume')
     return render_template('upload_resume.html')
 
-# ------------------ ✅ Change Password ------------------
+# ------------------ Admin: Change Password ------------------
+
 @app.route('/admin/change_password', methods=['GET', 'POST'])
 def change_password():
     if not session.get('admin'):
         return redirect('/login')
-
-    conn = sqlite3.connect('database.db')
+    conn = get_db_connection()
     c = conn.cursor()
-
     if request.method == 'POST':
         current_username = request.form['current_username']
         current_password = request.form['current_password']
         new_username = request.form['new_username']
         new_password = request.form['new_password']
         confirm_password = request.form['confirm_password']
-
         c.execute('SELECT * FROM users WHERE username=? AND password=?', (current_username, current_password))
         user = c.fetchone()
-
         if not user:
             flash('Current username or password is incorrect.')
         elif new_password != confirm_password:
@@ -263,10 +276,8 @@ def change_password():
             c.execute('UPDATE users SET username=?, password=? WHERE id=?', (new_username, new_password, user[0]))
             conn.commit()
             flash('Username and password updated successfully.')
-            # Log out the session to apply new login
             session.pop('admin', None)
             return redirect('/login')
-
     conn.close()
     return render_template('change_password.html')
 
