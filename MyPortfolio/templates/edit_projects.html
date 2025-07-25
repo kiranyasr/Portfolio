@@ -2,35 +2,37 @@
 {% block title %}Manage Projects{% endblock %}
 
 {% block content %}
-<h2>Add New Project</h2>
+<h2>{% if edit_mode %}Edit Project{% else %}Add New Project{% endif %}</h2>
 
 <form method="POST" enctype="multipart/form-data" class="project-form">
-  <input type="text" name="title" placeholder="Project Title" required>
-
-  <textarea name="description" placeholder="Project Description" rows="4" required></textarea>
-
-  <input type="text" name="tech_stack" placeholder="Tech Stack (e.g., Python, Flask)" required>
-  <input type="text" name="github" placeholder="GitHub Repository URL">
-  <input type="text" name="demo" placeholder="Live Demo URL">
+  {% if edit_mode %}
+    <input type="hidden" name="id" value="{{ project.id }}">
+  {% endif %}
+  <input type="text" name="title" placeholder="Project Title" value="{{ project.title if edit_mode else '' }}" required>
+  <textarea name="description" placeholder="Project Description" rows="4" required>{{ project.description if edit_mode else '' }}</textarea>
+  <input type="text" name="tech_stack" placeholder="Tech Stack" value="{{ project.tech_stack if edit_mode else '' }}" required>
+  <input type="text" name="github" placeholder="GitHub Repository URL" value="{{ project.github if edit_mode else '' }}">
+  <input type="text" name="demo" placeholder="Live Demo URL" value="{{ project.demo if edit_mode else '' }}">
 
   <label for="image">Upload Project Image:</label>
-  <input type="file" name="image" accept="image/*" required>
+  <input type="file" name="image" accept="image/*" {% if not edit_mode %}required{% endif %}>
 
-  <input type="text" name="outcome" placeholder="Outcome (e.g., Increased performance)">
-  <input type="text" name="tools" placeholder="Tools Used (e.g., VS Code, Figma)">
-  <input type="text" name="use_case" placeholder="Use Case (e.g., Portfolio Website)">
+  <input type="text" name="outcome" placeholder="Outcome" value="{{ project.outcome if edit_mode else '' }}">
+  <input type="text" name="tools" placeholder="Tools Used" value="{{ project.tools if edit_mode else '' }}">
+  <input type="text" name="use_case" placeholder="Use Case" value="{{ project.use_case if edit_mode else '' }}">
 
-  <button type="submit">Add Project</button>
+  <button type="submit">{% if edit_mode %}Update Project{% else %}Add Project{% endif %}</button>
 </form>
 
 <hr>
 
 <h2>Existing Projects</h2>
 <ul class="project-list">
-  {% for project in projects %}
+  {% for p in projects %}
     <li>
-      <strong>{{ project.title }}</strong>
-      <a href="/admin/projects/delete/{{ project.id }}" onclick="return confirm('Are you sure you want to delete this project?');">Delete</a>
+      <strong>{{ p.title }}</strong>
+      <a href="/admin/projects/edit/{{ p.id }}">Edit</a> |
+      <a href="/admin/projects/delete/{{ p.id }}" onclick="return confirm('Delete this project?');">Delete</a>
     </li>
   {% else %}
     <li>No projects added yet.</li>

@@ -153,49 +153,17 @@ def edit_about():
 
 # ------------------ Admin: Skills ------------------
 
-@app.route('/admin/skills/edit', methods=['GET', 'POST'])
-def edit_skills():
-    if not session.get('admin'):
-        return redirect('/login')
-    conn = get_db_connection()
-    c = conn.cursor()
-    if request.method == 'POST':
-        name = request.form['name']
-        image_file = request.files.get('image')
-        image_filename = None
-        if image_file and image_file.filename:
-            image_filename = image_file.filename
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
-            image_file.save(image_path)
-        c.execute('INSERT INTO skills (name, image) VALUES (?, ?)', (name, image_filename))
-        conn.commit()
-        flash('Skill added successfully.')
-    c.execute('SELECT * FROM skills')
-    skills = c.fetchall()
-    conn.close()
-    return render_template('edit_skills.html', skills=skills)
-
-@app.route('/admin/skills/delete/<int:skill_id>')
-def delete_skill(skill_id):
-    if not session.get('admin'):
-        return redirect('/login')
-    conn = get_db_connection()
-    c = conn.cursor()
-    c.execute('DELETE FROM skills WHERE id=?', (skill_id,))
-    conn.commit()
-    conn.close()
-    flash('Skill deleted.')
-    return redirect('/admin/skills/edit')
-
-# ------------------ Admin: Projects ------------------
-
 @app.route('/admin/projects/edit', methods=['GET', 'POST'])
-def edit_projects():
+@app.route('/admin/projects/edit/<int:project_id>', methods=['GET', 'POST'])
+def edit_projects(project_id=None):
     if not session.get('admin'):
         return redirect('/login')
+    
     conn = get_db_connection()
     c = conn.cursor()
+
     if request.method == 'POST':
+        pid = request.form.get('id')  # For update
         title = request.form['title']
         desc = request.form['description']
         tech = request.form['tech_stack']
@@ -205,22 +173,51 @@ def edit_projects():
         tools = request.form['tools']
         use_case = request.form['use_case']
         image_file = request.files.get('image')
+
         image_filename = None
         if image_file and image_file.filename:
             image_filename = image_file.filename
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
             image_file.save(image_path)
-        c.execute('''
-            INSERT INTO projects (title, description, tech_stack, github, demo, image, outcome, tools, use_case)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (title, desc, tech, github, demo, image_filename, outcome, tools, use_case))
+
+        if pid:  # Update existing
+            if image_filename:
+                c.execute('''UPDATE projects SET title=?, description=?, tech_stack=?, github=?, demo=?, image=?, outcome=?, tools=?, use_case=? WHERE id=?''',
+                          (title, desc, tech, github, demo, image_filename, outcome, tools, use_case, pid))
+            else:
+                c.execute('''UPDATE projects SET title=?, description=?, tech_stack=?, github=?, demo=?, outcome=?, tools=?, use_case=? WHERE id=?''',
+                          (title, desc, tech, github, demo, outcome, tools, use_case, pid))
+            flash('Project updated successfully.')
+        else:  # Add new
+            c.execute('''INSERT INTO projects (title, description, tech_stack, github, demo, image, outcome, tools, use_case)
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                      (title, desc, tech, github, demo, image_filename, outcome, tools, use_case))
+            flash('Project added successfully.')
+
         conn.commit()
-        flash('Project added.')
         return redirect('/admin/projects/edit')
+
+    # Load project for editing if ID is passed
+    project = {}
+    if project_id:
+        c.execute('SELECT * FROM projects WHERE id=?', (project_id,))
+        row = c.fetchone()
+        if row:
+            project = {
+                'id': row[0], 'title': row[1], 'description': row[2],
+                'tech_stack': row[3], 'github': row[4], 'demo': row[5],
+                'image': row[6], 'outcome': row[7], 'tools': row[8], 'use_case': row[9]
+            }
+
     c.execute('SELECT * FROM projects')
     rows = c.fetchall()
     conn.close()
-    return render_template('edit_projects.html', projects=[{'id': row[0], 'title': row[1]} for row in rows])
+
+    return render_template('edit_projects.html',
+                           projects=[{'id': row[0], 'title': row[1]} for row in rows],
+                           edit_mode=bool(project_id),
+                           project=project)
+
 
 @app.route('/admin/projects/delete/<int:pid>')
 def delete_project(pid):
