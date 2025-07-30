@@ -282,7 +282,7 @@ def delete_skill(skill_id):
     flash("Skill deleted successfully.")
     return redirect(url_for('edit_skills'))
 
-
+#----------------------------------------------------#
 # ------------------ Admin: Resume ------------------
 
 @app.route('/admin/upload_resume', methods=['GET', 'POST'])
