@@ -1,26 +1,48 @@
 {% extends "layout.html" %}
-{% block title %}Edit Skills{% endblock %}
-{% block content %}
 
-<h2>Add Skill</h2>
+{% block title %}Edit Skills{% endblock %}
+
+{% block content %}
+<h2>Edit Skills</h2>
+
+<!-- Flash messages -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Add New Skill Form -->
 <form method="POST" enctype="multipart/form-data">
-  <input type="text" name="name" placeholder="Skill name" required><br><br>
-  <input type="file" name="image" accept="image/*"><br><br>
+  <label for="name">Skill Name:</label><br>
+  <input type="text" id="name" name="name" placeholder="Skill name" required><br><br>
+
+  <label for="image">Skill Image:</label><br>
+  <input type="file" id="image" name="image" accept="image/*"><br><br>
+
   <button type="submit">Add Skill</button>
 </form>
+
 <hr>
 
 <h3>Existing Skills</h3>
-<ul>
-  {% for skill in skills %}
-    <li>
-      {{ skill[1] }}
-      {% if skill[2] %}
-        <img src="{{ url_for('static', filename='images/' ~ skill[2]) }}" width="50" height="50">
-      {% endif %}
-      <a href="{{ url_for('delete_skill', skill_id=skill[0]) }}">Delete</a>
-    </li>
-  {% endfor %}
-</ul>
-
+{% if skills %}
+  <ul>
+    {% for skill in skills %}
+      <li>
+        <strong>{{ skill[1] }}</strong>
+        {% if skill[2] %}
+          <img src="{{ url_for('static', filename='images/' ~ skill[2]) }}" width="50" height="50" alt="{{ skill[1] }}">
+        {% endif %}
+        <a href="{{ url_for('delete_skill', skill_id=skill[0]) }}" onclick="return confirm('Are you sure you want to delete this skill?');">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No skills found.</p>
+{% endif %}
 {% endblock %}

@@ -151,7 +151,7 @@ def edit_about():
         'projects_completed': about[7], 'photo': about[8]
     })
 
-# ------------------ Admin: Skills ------------------
+# ------------------ Admin: Projects ------------------
 
 @app.route('/admin/projects/edit', methods=['GET', 'POST'])
 @app.route('/admin/projects/edit/<int:project_id>', methods=['GET', 'POST'])
@@ -230,6 +230,58 @@ def delete_project(pid):
     conn.close()
     flash('Project deleted.')
     return redirect('/admin/projects/edit')
+
+# ------------------ Admin: Skills ------------------
+
+@app.route('/admin/skills/edit', methods=['GET', 'POST'])
+def edit_skills():
+    if not session.get('admin'):
+        return redirect('/login')
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    if request.method == 'POST':
+        name = request.form['name']
+        image = request.files.get('image')
+
+        if name and image and image.filename:
+            filename = image.filename
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            image.save(filepath)
+            c.execute('INSERT INTO skills (name, image) VALUES (?, ?)', (name, filename))
+            conn.commit()
+            flash('Skill added successfully!')
+            return redirect('/admin/skills/edit')
+        else:
+            flash('Both name and image are required.')
+
+    # Load skills
+    c.execute('SELECT * FROM skills')
+    skills = c.fetchall()
+    conn.close()
+    return render_template('edit_skills.html', skills=skills)
+
+@app.route('/delete_skill/<int:skill_id>')
+def delete_skill(skill_id):
+    conn = sqlite3.connect('your_database_name.db')  # change to your DB name
+    cursor = conn.cursor()
+
+    # Optional: Delete associated image file from static/images
+    cursor.execute("SELECT image FROM skills WHERE id=?", (skill_id,))
+    image = cursor.fetchone()
+    if image and image[0]:
+        image_path = os.path.join('static/images', image[0])
+        if os.path.exists(image_path):
+            os.remove(image_path)
+
+    cursor.execute("DELETE FROM skills WHERE id=?", (skill_id,))
+    conn.commit()
+    conn.close()
+
+    flash("Skill deleted successfully.")
+    return redirect(url_for('edit_skills'))
+
 
 # ------------------ Admin: Resume ------------------
 
