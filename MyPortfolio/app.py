@@ -3,14 +3,13 @@ import sqlite3
 import os
 
 # ------------------ App Setup ------------------
-
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'
 
 # Get base directory of this file
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-# Set up static folders
+# Static folders
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'images')
 RESUME_FOLDER = os.path.join(BASE_DIR, 'static', 'resume')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -19,12 +18,53 @@ os.makedirs(RESUME_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['RESUME_FOLDER'] = RESUME_FOLDER
 
-# Full path to the database
+# Database path
 DATABASE_PATH = os.path.join(BASE_DIR, 'database.db')
 
 # Database connection helper
 def get_db_connection():
     return sqlite3.connect(DATABASE_PATH)
+
+# ------------------ DB Initialization ------------------
+def init_db():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    # About table
+    c.execute('''CREATE TABLE IF NOT EXISTS about (
+        id INTEGER PRIMARY KEY,
+        bio TEXT, name TEXT, dob TEXT, address TEXT, zip_code TEXT,
+        email TEXT, phone TEXT, projects_completed INTEGER, photo TEXT
+    )''')
+
+    # Skills table
+    c.execute('''CREATE TABLE IF NOT EXISTS skills (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        image TEXT
+    )''')
+
+    # Projects table
+    c.execute('''CREATE TABLE IF NOT EXISTS projects (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT, description TEXT, tech_stack TEXT,
+        github TEXT, demo TEXT, image TEXT, outcome TEXT,
+        tools TEXT, use_case TEXT
+    )''')
+
+    # Users table
+    c.execute('''CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL, password TEXT NOT NULL
+    )''')
+
+    # Insert default about row if missing
+    c.execute('SELECT COUNT(*) FROM about')
+    if c.fetchone()[0] == 0:
+        c.execute('INSERT INTO about (id, bio, name, dob, address, zip_code, email, phone, projects_completed, photo) VALUES (1, "", "", "", "", "", "", "", 0, "")')
+
+    conn.commit()
+    conn.close()
 
 # ------------------ ROUTES ------------------
 
@@ -36,6 +76,8 @@ def home():
 def about():
     conn = get_db_connection()
     c = conn.cursor()
+
+    # Fetch about info
     c.execute('SELECT bio, name, dob, address, zip_code, email, phone, projects_completed, photo FROM about WHERE id=1')
     row = c.fetchone()
     about = {
@@ -43,8 +85,11 @@ def about():
         'zip_code': row[4], 'email': row[5], 'phone': row[6],
         'projects_completed': row[7], 'photo': row[8]
     } if row else {}
+
+    # Fetch skills
     c.execute('SELECT name, image FROM skills')
     skills = [{'name': s[0], 'image': s[1]} for s in c.fetchall()]
+
     conn.close()
     return render_template('about.html', about=about, skills=skills)
 
@@ -68,14 +113,11 @@ def projects():
 def education():
     return render_template('education.html')
 
-
-
-
-
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
+# ------------------ Login ------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -108,7 +150,6 @@ def dashboard():
     return render_template('dashboard.html')
 
 # ------------------ Admin: About ------------------
-
 @app.route('/admin/about/edit', methods=['GET', 'POST'])
 def edit_about():
     if not session.get('admin'):
@@ -132,13 +173,9 @@ def edit_about():
             photo_path = os.path.join(app.config['UPLOAD_FOLDER'], photo_filename)
             photo_file.save(photo_path)
             data['photo'] = photo_filename
-            c.execute('''
-                UPDATE about SET bio=?, name=?, dob=?, address=?, zip_code=?, email=?, phone=?, projects_completed=?, photo=? WHERE id=1
-            ''', tuple(data.values()))
+            c.execute('''UPDATE about SET bio=?, name=?, dob=?, address=?, zip_code=?, email=?, phone=?, projects_completed=?, photo=? WHERE id=1''', tuple(data.values()))
         else:
-            c.execute('''
-                UPDATE about SET bio=?, name=?, dob=?, address=?, zip_code=?, email=?, phone=?, projects_completed=? WHERE id=1
-            ''', tuple(v for k, v in data.items()))
+            c.execute('''UPDATE about SET bio=?, name=?, dob=?, address=?, zip_code=?, email=?, phone=?, projects_completed=? WHERE id=1''', tuple(v for k, v in data.items()))
         conn.commit()
         flash('About section updated.')
         return redirect('/dashboard')
@@ -152,7 +189,6 @@ def edit_about():
     })
 
 # ------------------ Admin: Projects ------------------
-
 @app.route('/admin/projects/edit', methods=['GET', 'POST'])
 @app.route('/admin/projects/edit/<int:project_id>', methods=['GET', 'POST'])
 def edit_projects(project_id=None):
@@ -163,7 +199,7 @@ def edit_projects(project_id=None):
     c = conn.cursor()
 
     if request.method == 'POST':
-        pid = request.form.get('id')  # For update
+        pid = request.form.get('id')
         title = request.form['title']
         desc = request.form['description']
         tech = request.form['tech_stack']
@@ -180,7 +216,7 @@ def edit_projects(project_id=None):
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
             image_file.save(image_path)
 
-        if pid:  # Update existing
+        if pid:
             if image_filename:
                 c.execute('''UPDATE projects SET title=?, description=?, tech_stack=?, github=?, demo=?, image=?, outcome=?, tools=?, use_case=? WHERE id=?''',
                           (title, desc, tech, github, demo, image_filename, outcome, tools, use_case, pid))
@@ -188,7 +224,7 @@ def edit_projects(project_id=None):
                 c.execute('''UPDATE projects SET title=?, description=?, tech_stack=?, github=?, demo=?, outcome=?, tools=?, use_case=? WHERE id=?''',
                           (title, desc, tech, github, demo, outcome, tools, use_case, pid))
             flash('Project updated successfully.')
-        else:  # Add new
+        else:
             c.execute('''INSERT INTO projects (title, description, tech_stack, github, demo, image, outcome, tools, use_case)
                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                       (title, desc, tech, github, demo, image_filename, outcome, tools, use_case))
@@ -197,7 +233,6 @@ def edit_projects(project_id=None):
         conn.commit()
         return redirect('/admin/projects/edit')
 
-    # Load project for editing if ID is passed
     project = {}
     if project_id:
         c.execute('SELECT * FROM projects WHERE id=?', (project_id,))
@@ -218,7 +253,6 @@ def edit_projects(project_id=None):
                            edit_mode=bool(project_id),
                            project=project)
 
-
 @app.route('/admin/projects/delete/<int:pid>')
 def delete_project(pid):
     if not session.get('admin'):
@@ -232,7 +266,6 @@ def delete_project(pid):
     return redirect('/admin/projects/edit')
 
 # ------------------ Admin: Skills ------------------
-
 @app.route('/admin/skills/edit', methods=['GET', 'POST'])
 def edit_skills():
     if not session.get('admin'):
@@ -256,7 +289,6 @@ def edit_skills():
         else:
             flash('Both name and image are required.')
 
-    # Load skills
     c.execute('SELECT * FROM skills')
     skills = c.fetchall()
     conn.close()
@@ -264,14 +296,13 @@ def edit_skills():
 
 @app.route('/delete_skill/<int:skill_id>')
 def delete_skill(skill_id):
-    conn = sqlite3.connect('your_database_name.db')  # change to your DB name
+    conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Optional: Delete associated image file from static/images
     cursor.execute("SELECT image FROM skills WHERE id=?", (skill_id,))
     image = cursor.fetchone()
     if image and image[0]:
-        image_path = os.path.join('static/images', image[0])
+        image_path = os.path.join(app.config['UPLOAD_FOLDER'], image[0])
         if os.path.exists(image_path):
             os.remove(image_path)
 
@@ -282,9 +313,7 @@ def delete_skill(skill_id):
     flash("Skill deleted successfully.")
     return redirect(url_for('edit_skills'))
 
-#----------------------------------------------------#
 # ------------------ Admin: Resume ------------------
-
 @app.route('/admin/upload_resume', methods=['GET', 'POST'])
 def upload_resume():
     if not session.get('admin'):
@@ -302,7 +331,6 @@ def upload_resume():
     return render_template('upload_resume.html')
 
 # ------------------ Admin: Change Password ------------------
-
 @app.route('/admin/change_password', methods=['GET', 'POST'])
 def change_password():
     if not session.get('admin'):
@@ -331,6 +359,6 @@ def change_password():
     return render_template('change_password.html')
 
 # ------------------ Run App ------------------
-
 if __name__ == '__main__':
+    init_db()  # Ensure tables exist before running
     app.run(host='0.0.0.0', port=5000, debug=True)
