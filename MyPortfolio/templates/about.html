@@ -9,7 +9,7 @@
 
 <div class="about-section">
   <div class="about-image">
-    <img src="{{ url_for('static', filename='images/' ~ about.photo) }}" alt="Profile Photo">
+    <img src="{{ url_for('static', filename='images/' ~ about.photo if about.photo else 'images/placeholder.jpg') }}" alt="Profile Photo">
   </div>
   <div class="about-info">
     <h2>About Me</h2>
@@ -24,8 +24,17 @@
     </ul>
     <div class="projects">{{ about.projects_completed }} Project(s) Completed</div>
 
-    <!-- ✅ Resume Download Button -->
-    <a class="download-btn" href="{{ url_for('static', filename='resume/Kiranya_Resume.pdf') }}" download>Download CV</a>
+    <!-- Corrected Resume View Button -->
+    {% if resume_file %}
+      <div class="resume-section" style="margin-top: 20px;">
+        <a href="{{ url_for('static', filename='resume/' + resume_file) }}" target="_blank" class="btn btn-primary">
+            View Resume
+        </a>
+      </div>
+    {% else %}
+      <p style="margin-top: 20px;"><i>Resume has not been uploaded yet.</i></p>
+    {% endif %}
+    <!-- End of Correction -->
   </div>
 </div>
 
