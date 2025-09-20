@@ -1,6 +1,6 @@
 .education-section {
   padding: 40px 0 20px;
-  background-color: #0d0d0d;
+  background-color: var(--bg-dark-primary); /* Changed */
 }
 
 .edu-container {
@@ -12,8 +12,8 @@
   text-align: center;
   font-size: 36px;
   font-weight: 700;
-  color: white;
-  border-bottom: 3px solid #ffc107;
+  color: var(--text-primary); /* Changed */
+  border-bottom: 3px solid var(--primary-accent); /* Changed */
   display: inline-block;
   padding-bottom: 10px;
   margin-bottom: 40px;
@@ -22,9 +22,9 @@
 
 /* Card Style */
 .edu-block {
-  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-  border: 1px solid rgba(255, 193, 7, 0.2);
-  border-left: 5px solid #ffc107;
+  background: var(--bg-dark-secondary); /* Changed */
+  border: 1px solid var(--border-color); /* Changed */
+  border-left: 5px solid var(--primary-accent); /* Changed */
   border-radius: 12px;
   padding: 25px 30px;
   margin-bottom: 30px;
@@ -34,13 +34,13 @@
 
 .edu-block:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(255, 193, 7, 0.2);
+  box-shadow: 0 12px 24px rgba(0, 245, 196, 0.2); /* Changed */
 }
 
 /* Typography */
 .edu-block h3 {
   font-size: 16px;
-  color: #ffc107;
+  color: var(--primary-accent); /* Changed */
   margin-bottom: 8px;
   text-transform: uppercase;
   font-weight: 600;
@@ -49,14 +49,14 @@
 
 .edu-block h4 {
   font-size: 24px;
-  color: #ffffff;
+  color: var(--text-primary); /* Changed */
   margin-bottom: 12px;
   font-weight: 700;
 }
 
 .edu-block p {
   font-size: 15px;
-  color: #ccc;
+  color: var(--text-secondary); /* Changed */
   line-height: 1.6;
   margin: 4px 0;
 }

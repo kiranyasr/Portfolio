@@ -1,0 +1,94 @@
+/* === EXPERIENCE PAGE (experience.css) === */
+:root {
+    --bg-color: #0a0f18;
+    --card-bg-color: #121826;
+    --border-color: #2a3143;
+    --primary-accent: #00f5c4;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --shadow-color: rgba(0, 245, 196, 0.1);
+    --font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: var(--font-family);
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.page-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* This class now matches your HTML's outer container */
+.timeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Space between cards */
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* This class now matches each experience card in your HTML */
+.timeline-item {
+    background: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-left-color 0.3s ease;
+    border-left: 4px solid var(--border-color); /* Subtle left border */
+}
+
+.timeline-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px -5px var(--shadow-color);
+    border-left-color: var(--primary-accent); /* Highlight on hover */
+}
+
+/* Targeting elements inside the card for styling */
+.timeline-item h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.6rem;
+    color: var(--primary-accent);
+    font-weight: 600;
+}
+
+.company-date {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 15px; /* Row and column gap */
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.company {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.timeline-item p {
+    margin: 0;
+    color: var(--text-primary);
+    line-height: 1.7;
+}
+
+.no-experience {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 40px;
+}

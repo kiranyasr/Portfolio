@@ -21,11 +21,14 @@
     <div class="nav-wrapper container">
       <h1 class="logo">Kiranya S R</h1>
       <ul class="nav-links">
-        <li><a href="{{ url_for('home') }}" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
-        <li><a href="{{ url_for('about') }}" class="{% if request.path == '/about' %}active{% endif %}">About</a></li>
-        <li><a href="{{ url_for('education') }}" class="{% if request.path == '/education' %}active{% endif %}">Education</a></li>
-        <li><a href="{{ url_for('projects') }}" class="{% if request.path == '/projects' %}active{% endif %}">Projects</a></li>
-        <li><a href="{{ url_for('contact') }}" class="{% if request.path == '/contact' %}active{% endif %}">Contact</a></li>
+         <li><a href="{{ url_for('home') }}" class="{% if request.path == url_for('home') %}active{% endif %}">Home</a></li>
+        <li><a href="{{ url_for('about') }}" class="{% if request.path == url_for('about') %}active{% endif %}">About</a></li>
+        <li><a href="{{ url_for('projects') }}" class="{% if request.path == url_for('projects') %}active{% endif %}">Projects</a></li>
+        <li><a href="{{ url_for('education') }}" class="{% if request.path == url_for('education') %}active{% endif %}">Education</a></li>
+        <li><a href="{{ url_for('experience') }}" class="{% if request.path == url_for('experience') %}active{% endif %}">Experience</a></li>
+        <li><a href="{{ url_for('certificates') }}" class="{% if request.path == url_for('certificates') %}active{% endif %}">Certificates</a></li>
+        <li><a href="{{ url_for('technical_platforms') }}" class="{% if request.path == url_for('technical_platforms') %}active{% endif %}">Platforms</a></li>
+        <li><a href="{{ url_for('contact') }}" class="{% if request.path == url_for('contact') %}active{% endif %}">Contact</a></li>
         {% if session.admin %}
           <li><a href="{{ url_for('dashboard') }}" class="{% if request.path == '/dashboard' %}active{% endif %}">Dashboard</a></li>
           <li><a href="{{ url_for('logout') }}">Logout</a></li>

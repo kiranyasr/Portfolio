@@ -3,7 +3,7 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #000;
+  background: var(--bg-dark-primary); /* Changed */
 }
 
 .resume-image-container {
@@ -12,7 +12,7 @@ body, html {
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  background: #000;
+  background: var(--bg-dark-primary); /* Changed */
 }
 
 .resume-image {
@@ -34,7 +34,7 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    background: #000 !important;
+    background: #fff !important; /* Changed */
   }
 
   .resume-image-container {
@@ -42,7 +42,7 @@ body, html {
     height: 100vh;
     margin: 0;
     padding: 0;
-    background: #000 !important;
+    background: #fff !important; /* Changed */
     display: flex;
     justify-content: center;
     align-items: center;

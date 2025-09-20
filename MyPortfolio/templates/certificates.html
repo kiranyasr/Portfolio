@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% block title %}Certificates{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/certificates.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="header-section">
+        <h1 class="page-title">Credentials & Certifications</h1>
+    </div>
+    <div class="certificates-grid">
+        {% for cert in certificates %}
+        <a href="{{ url_for('static', filename='certificates/' + cert.pdf_file) }}" target="_blank" class="certificate-card">
+            <div class="card-content">
+                <h3>{{ cert.title }}</h3>
+                <p>Issued by: {{ cert.issuer }}</p>
+            </div>
+            <div class="card-footer">
+                <span class="view-link">View Certificate</span>
+            </div>
+        </a>
+        {% else %}
+        <p>No certificates uploaded yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

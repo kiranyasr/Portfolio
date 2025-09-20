@@ -1,23 +1,23 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #111;
-  color: #fff;
+  background-color: var(--bg-dark-primary); /* Changed */
+  color: var(--text-primary); /* Changed */
 }
 
 .contact-section {
   text-align: center;
   padding: 40px 20px 60px;
-  background-color: #111;
+  background-color: var(--bg-dark-primary); /* Changed */
 }
 
 .contact-section h1 {
   font-size: 42px;
   margin-bottom: 40px;
   margin-top: 0;
-  color: #fff;
+  color: var(--text-primary); /* Changed */
   display: inline-block;
-  border-bottom: 3px solid #ffc107; /* Yellow underline */
+  border-bottom: 3px solid var(--primary-accent); /* Changed */
   padding-bottom: 10px; /* Spacing between text and underline */
 }
 
@@ -32,7 +32,7 @@ body {
 }
 
 .contact-card {
-  background-color: #1b1b1b;
+  background-color: var(--bg-dark-secondary); /* Changed */
   padding: 30px 20px;
   border-radius: 12px;
   width: 40%;
@@ -54,27 +54,27 @@ body {
 
 .icon {
   font-size: 36px;
-  color: #d4af37;
+  color: var(--primary-accent); /* Changed */
   margin-bottom: 15px;
 }
 
 .contact-card h4 {
   font-size: 18px;
   margin-bottom: 10px;
-  color: #fff;
+  color: var(--text-primary); /* Changed */
 }
 
 .contact-card p {
   font-size: 14px;
-  color: #aaa;
+  color: var(--text-secondary); /* Changed */
 }
 
 .contact-card a:hover h4 {
-  color: #d4af37;
+  color: var(--primary-accent); /* Changed */
 }
 
 .contact-card a:hover p {
-  color: #ccc;
+  color: var(--text-primary); /* Changed */
 }
 
 /* Responsive for mobile */

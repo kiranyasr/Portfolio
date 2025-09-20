@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block title %}Experience{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  {# This line links the CSS file to your HTML #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/experience.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header-section">
+        <h1 class="page-title">Career Journey</h1>
+        <p class="subtitle">My professional experience and growth over the years.</p>
+    </div>
+
+    {# This container holds all the experience items #}
+    <div class="timeline-container">
+        {% for exp in experiences %}
+        {# Each experience is wrapped in a timeline-item div #}
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <h3>{{ exp.job_title }}</h3>
+                <div class="company-date">
+                    <span class="company">{{ exp.company }}</span>
+                    <span class="date">{{ exp.start_date }} - {{ exp.end_date }}</span>
+                </div>
+                <p>{{ exp.description }}</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="no-experience">
+            <p>No work experience has been added yet. Please check back later.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+/* === CERTIFICATES PAGE (certificates.css) === */
+/* --- Design System Variables --- */
+:root {
+    --bg-color: #0a0f18; /* Changed */
+    --card-bg-color: #121826; /* Changed */
+    --border-color: #2a3143; /* Changed */
+    --primary-accent: #00f5c4; /* Changed */
+    --text-primary: #e2e8f0; /* Changed */
+    --text-secondary: #94a3b8; /* Changed */
+    --shadow-color: rgba(0, 245, 196, 0.1); /* Changed */
+    --font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: var(--font-family);
+}
+
+/* --- Page Header --- */
+.header-section {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.page-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+/* --- Certificates Grid Layout --- */
+.certificates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+}
+
+/* --- Certificate Card Styling --- */
+.certificate-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.certificate-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-accent);
+    box-shadow: 0 8px 30px var(--shadow-color);
+}
+
+.card-content {
+    flex-grow: 1; /* Pushes the "View" link down */
+}
+
+/* Card Typography */
+.card-content h3 {
+    margin-top: 0;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.card-content p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* "View Certificate" Link */
+.card-footer {
+    margin-top: auto; /* Aligns to the bottom */
+}
+
+.view-link {
+    display: inline-block;
+    color: var(--primary-accent);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.view-link::after {
+    content: ' →';
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.certificate-card:hover .view-link::after {
+    transform: translateX(4px);
+}

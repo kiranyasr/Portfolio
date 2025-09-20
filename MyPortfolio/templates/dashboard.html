@@ -1,56 +1,91 @@
 {% extends "layout.html" %}
 {% block title %}Admin Dashboard{% endblock %}
 
-{% block content %}
-<div class="dashboard-container dark">
-  <h2 class="dashboard-title">Admin Dashboard</h2>
+{% block head %}
+  {{ super() }}
+  {# Link to your new dashboard stylesheet #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  {# Removed Font Awesome link as icons are no longer needed #}
+{% endblock %}
 
-  {% with messages = get_flashed_messages() %}
+{% block content %}
+<div class="dashboard-container">
+
+  <div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p>Manage your portfolio content from here.</p>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-      <ul class="flashes">
-        {% for message in messages %}
-          <li>{{ message }}</li>
+      <div class="flashes">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
         {% endfor %}
-      </ul>
+      </div>
     {% endif %}
   {% endwith %}
 
-  <div class="card-container">
+  <div class="card-grid">
 
-    <div class="card">
+    <div class="dashboard-card">
+      <h3>Manage Home Page</h3>
+      <p>Edit the text and image on your main page.</p>
+      <a href="{{ url_for('edit_home') }}" class="card-btn">Edit</a>
+    </div>
+
+    <div class="dashboard-card">
       <h3>Edit About</h3>
-      <p>Update your profile, photo & bio</p>
-      <a href="{{ url_for('edit_about') }}" class="btn">Edit About</a>
+      <p>Update your profile, photo & bio.</p>
+      <a href="{{ url_for('edit_about') }}" class="card-btn">Edit</a>
     </div>
 
-    <div class="card">
+    <div class="dashboard-card">
       <h3>Manage Projects</h3>
-      <p>Add, update or delete projects</p>
-      <a href="{{ url_for('edit_projects') }}" class="btn">Manage Projects</a>
+      <p>Add, update or delete projects.</p>
+      <a href="{{ url_for('edit_projects') }}" class="card-btn">Manage</a>
     </div>
 
-    <div class="card">
-      <h3>Edit Skills</h3>
-      <p>Update skills</p>
-      <a href="{{ url_for('edit_skills') }}" class="btn">Edit Skills</a>
+    <div class="dashboard-card">
+        <h3>Edit Skills</h3>
+        <p>Update skills and proficiency levels.</p>
+        <a href="{{ url_for('edit_skills') }}" class="card-btn">Edit</a>
     </div>
 
-    <div class="card">
-      <h3>Upload Resume</h3>
-      <p>Upload your latest resume (PDF)</p>
-      <a href="{{ url_for('upload_resume') }}" class="btn">Upload Resume</a>
+    <div class="dashboard-card">
+        <h3>Upload Resume</h3>
+        <p>Upload your latest resume (PDF).</p>
+        <a href="{{ url_for('upload_resume') }}" class="card-btn">Upload</a>
     </div>
 
-    <div class="card">
+    <div class="dashboard-card">
+        <h3>Manage Experience</h3>
+        <p>Add or remove work experience entries.</p>
+        <a href="{{ url_for('edit_experience') }}" class="card-btn">Manage</a>
+    </div>
+    
+    <div class="dashboard-card">
+        <h3>Manage Certificates</h3>
+        <p>Upload or delete your certificates.</p>
+        <a href="{{ url_for('edit_certificates') }}" class="card-btn">Manage</a>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Manage Platforms</h3>
+        <p>Update links to your technical profiles.</p>
+        <a href="{{ url_for('edit_platforms') }}" class="card-btn">Edit</a>
+    </div>
+
+    <div class="dashboard-card">
       <h3>Change Password</h3>
-      <p>Change your admin password securely</p>
-      <a href="{{ url_for('change_password') }}" class="btn">Change Password</a>
+      <p>Change your admin password securely.</p>
+      <a href="{{ url_for('change_password') }}" class="card-btn">Change</a>
     </div>
 
-    <div class="card logout-card">
+    <div class="dashboard-card">
       <h3>Logout</h3>
-      <p>End your admin session</p>
-      <a href="{{ url_for('logout') }}" class="btn logout-btn">Logout</a>
+      <p>End your admin session securely.</p>
+      <a href="{{ url_for('logout') }}" class="card-btn logout">Logout</a>
     </div>
 
   </div>

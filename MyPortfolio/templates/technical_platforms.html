@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block title %}Technical Platforms{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/platforms.css') }}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="header-section">
+        <h1 class="page-title">My Technical Profiles</h1>
+        <p class="subtitle">Find me on these platforms where I code, create, and connect.</p>
+    </div>
+
+    <div class="platform-grid">
+        {% for platform in platforms %}
+        <a href="{{ platform.link }}" target="_blank" rel="noopener noreferrer" class="platform-card">
+            <div class="card-content">
+                <h3>{{ platform.name }}</h3>
+                <p>{{ platform.description }}</p>
+            </div>
+            <div class="card-footer">
+                <span>Visit Profile →</span>
+            </div>
+        </a>
+        {% else %}
+        <div class="no-platforms">
+            <p>No platform links have been added yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

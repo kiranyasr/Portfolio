@@ -12,11 +12,14 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # Static folders
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'static', 'images')
 RESUME_FOLDER = os.path.join(BASE_DIR, 'static', 'resume')
+CERTIFICATES_FOLDER = os.path.join(BASE_DIR, 'static', 'certificates')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESUME_FOLDER, exist_ok=True)
+os.makedirs(CERTIFICATES_FOLDER, exist_ok=True)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['RESUME_FOLDER'] = RESUME_FOLDER
+app.config['CERTIFICATES_FOLDER'] = CERTIFICATES_FOLDER
 
 # Database path
 DATABASE_PATH = os.path.join(BASE_DIR, 'database.db')
@@ -25,99 +28,99 @@ DATABASE_PATH = os.path.join(BASE_DIR, 'database.db')
 def get_db_connection():
     return sqlite3.connect(DATABASE_PATH)
 
-# ------------------ DB Initialization ------------------
+# ------------------ DB Initialization Function (FIX FOR NameError) ------------------
 def init_db():
+    """
+    This function creates all necessary database tables if they don't already exist.
+    It's safe to run every time the app starts.
+    """
     conn = get_db_connection()
     c = conn.cursor()
-
-    # About table
-    c.execute('''CREATE TABLE IF NOT EXISTS about (
-        id INTEGER PRIMARY KEY,
-        bio TEXT, name TEXT, dob TEXT, address TEXT, zip_code TEXT,
-        email TEXT, phone TEXT, projects_completed INTEGER, photo TEXT
-    )''')
-
-    # Skills table
-    c.execute('''CREATE TABLE IF NOT EXISTS skills (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        image TEXT
-    )''')
-
-    # Projects table
-    c.execute('''CREATE TABLE IF NOT EXISTS projects (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT, description TEXT, tech_stack TEXT,
-        github TEXT, demo TEXT, image TEXT, outcome TEXT,
-        tools TEXT, use_case TEXT
-    )''')
-
-    # Users table
-    c.execute('''CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL, password TEXT NOT NULL
-    )''')
-
-    # Insert default about row if missing
-    c.execute('SELECT COUNT(*) FROM about')
-    if c.fetchone()[0] == 0:
-        c.execute('INSERT INTO about (id, bio, name, dob, address, zip_code, email, phone, projects_completed, photo) VALUES (1, "", "", "", "", "", "", "", 0, "")')
-
+    c.execute('''CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT NOT NULL, password TEXT NOT NULL)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS about (id INTEGER PRIMARY KEY, bio TEXT, name TEXT, dob TEXT, address TEXT, zip_code TEXT, email TEXT, phone TEXT, projects_completed INTEGER, photo TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS skills (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, image TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, tech_stack TEXT, github TEXT, demo TEXT, image TEXT, outcome TEXT, tools TEXT, use_case TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS experience (id INTEGER PRIMARY KEY AUTOINCREMENT, job_title TEXT NOT NULL, company TEXT NOT NULL, start_date TEXT, end_date TEXT, description TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS certificates (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, issuer TEXT NOT NULL, pdf_file TEXT NOT NULL)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS technical_platforms (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, link TEXT NOT NULL, description TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS home_content (id INTEGER PRIMARY KEY, greeting TEXT, heading_prefix TEXT, heading_name TEXT, paragraph TEXT, hero_image TEXT)''')
     conn.commit()
     conn.close()
 
-# ------------------ ROUTES ------------------
-
+# ------------------ PUBLIC ROUTES ------------------
 @app.route('/')
 def home():
-    return render_template('home.html')
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT * FROM home_content WHERE id = 1')
+    home_data = c.fetchone()
+    conn.close()
+    home_content = {
+        'greeting': home_data[1], 'heading_prefix': home_data[2], 'heading_name': home_data[3],
+        'paragraph': home_data[4], 'hero_image': home_data[5]
+    } if home_data else {}
+    return render_template('home.html', home=home_content)
 
 @app.route('/about')
 def about():
     conn = get_db_connection()
     c = conn.cursor()
-
-    # Fetch about info
-    c.execute('SELECT bio, name, dob, address, zip_code, email, phone, projects_completed, photo FROM about WHERE id=1')
+    c.execute('SELECT * FROM about WHERE id=1')
     row = c.fetchone()
-    about = {
-        'bio': row[0], 'name': row[1], 'dob': row[2], 'address': row[3],
-        'zip_code': row[4], 'email': row[5], 'phone': row[6],
-        'projects_completed': row[7], 'photo': row[8]
+    about_dict = {
+        'bio': row[1], 'name': row[2], 'dob': row[3], 'address': row[4], 'zip_code': row[5],
+        'email': row[6], 'phone': row[7], 'projects_completed': row[8], 'photo': row[9]
     } if row else {}
-
-    # Fetch skills
     c.execute('SELECT name, image FROM skills')
     skills = [{'name': s[0], 'image': s[1]} for s in c.fetchall()]
-
     conn.close()
-    return render_template('about.html', about=about, skills=skills)
+    return render_template('about.html', about=about_dict, skills=skills)
 
 @app.route('/projects')
 def projects():
     conn = get_db_connection()
     c = conn.cursor()
     c.execute('SELECT * FROM projects')
-    rows = c.fetchall()
+    projects_list = [{'id': r[0], 'title': r[1], 'description': r[2], 'tech_stack': r[3], 'github': r[4], 'demo': r[5], 'image': r[6], 'outcome': r[7], 'tools': r[8], 'use_case': r[9]} for r in c.fetchall()]
     conn.close()
-    return render_template('projects.html', projects=[
-        {
-            'id': row[0], 'title': row[1], 'description': row[2],
-            'tech_stack': row[3], 'github': row[4], 'demo': row[5],
-            'image': row[6], 'outcome': row[7], 'tools': row[8], 'use_case': row[9]
-        }
-        for row in rows
-    ])
+    return render_template('projects.html', projects=projects_list)
 
 @app.route('/education')
 def education():
     return render_template('education.html')
 
+@app.route('/experience')
+def experience():
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT job_title, company, start_date, end_date, description FROM experience ORDER BY id DESC')
+    experiences = [{'job_title': row[0], 'company': row[1], 'start_date': row[2], 'end_date': row[3], 'description': row[4]} for row in c.fetchall()]
+    conn.close()
+    return render_template('experience.html', experiences=experiences)
+
+@app.route('/certificates')
+def certificates():
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT title, issuer, pdf_file FROM certificates')
+    certificates_list = [{'title': row[0], 'issuer': row[1], 'pdf_file': row[2]} for row in c.fetchall()]
+    conn.close()
+    return render_template('certificates.html', certificates=certificates_list)
+    
+@app.route('/technical_platforms')
+def technical_platforms():
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT name, link, description FROM technical_platforms')
+    platforms = [{'name': row[0], 'link': row[1], 'description': row[2]} for row in c.fetchall()]
+    conn.close()
+    return render_template('technical_platforms.html', platforms=platforms)
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
-# ------------------ Login ------------------
+# ------------------ AUTH & DASHBOARD ------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -134,7 +137,6 @@ def login():
             return redirect('/dashboard')
         else:
             flash('Invalid username or password.')
-            return redirect('/login')
     return render_template('login.html')
 
 @app.route('/logout')
@@ -149,55 +151,79 @@ def dashboard():
         return redirect('/login')
     return render_template('dashboard.html')
 
-# ------------------ Admin: About ------------------
-@app.route('/admin/about/edit', methods=['GET', 'POST'])
-def edit_about():
-    if not session.get('admin'):
-        return redirect('/login')
+# ------------------ ADMIN ROUTES ------------------
+
+@app.route('/admin/home/edit', methods=['GET', 'POST'])
+def edit_home():
+    if not session.get('admin'): return redirect('/login')
     conn = get_db_connection()
     c = conn.cursor()
     if request.method == 'POST':
-        data = {
-            'bio': request.form['bio'],
-            'name': request.form['name'],
-            'dob': request.form['dob'],
-            'address': request.form['address'],
-            'zip_code': request.form['zip_code'],
-            'email': request.form['email'],
-            'phone': request.form['phone'],
-            'projects_completed': int(request.form['projects_completed'])
-        }
+        greeting = request.form['greeting']
+        heading_prefix = request.form['heading_prefix']
+        heading_name = request.form['heading_name']
+        paragraph = request.form['paragraph']
+        hero_image_file = request.files.get('hero_image')
+        if hero_image_file and hero_image_file.filename:
+            filename = hero_image_file.filename
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            hero_image_file.save(filepath)
+            c.execute('UPDATE home_content SET greeting=?, heading_prefix=?, heading_name=?, paragraph=?, hero_image=? WHERE id=1',
+                      (greeting, heading_prefix, heading_name, paragraph, filename))
+        else:
+            c.execute('UPDATE home_content SET greeting=?, heading_prefix=?, heading_name=?, paragraph=? WHERE id=1',
+                      (greeting, heading_prefix, heading_name, paragraph))
+        conn.commit()
+        flash('Home page content updated successfully.')
+        return redirect(url_for('dashboard'))
+    c.execute('SELECT * FROM home_content WHERE id = 1')
+    home_data = c.fetchone()
+    conn.close()
+    home_content = {
+        'greeting': home_data[1], 'heading_prefix': home_data[2], 'heading_name': home_data[3],
+        'paragraph': home_data[4], 'hero_image': home_data[5]
+    } if home_data else {}
+    return render_template('edit_home.html', home=home_content)
+
+@app.route('/admin/about/edit', methods=['GET', 'POST'])
+def edit_about():
+    if not session.get('admin'): return redirect('/login')
+    conn = get_db_connection()
+    c = conn.cursor()
+    if request.method == 'POST':
+        bio = request.form['bio']
+        name = request.form['name']
+        dob = request.form['dob']
+        address = request.form['address']
+        zip_code = request.form['zip_code']
+        email = request.form['email']
+        phone = request.form['phone']
+        projects_completed = int(request.form['projects_completed'])
         photo_file = request.files.get('photo')
         if photo_file and photo_file.filename:
             photo_filename = photo_file.filename
             photo_path = os.path.join(app.config['UPLOAD_FOLDER'], photo_filename)
             photo_file.save(photo_path)
-            data['photo'] = photo_filename
-            c.execute('''UPDATE about SET bio=?, name=?, dob=?, address=?, zip_code=?, email=?, phone=?, projects_completed=?, photo=? WHERE id=1''', tuple(data.values()))
+            c.execute('UPDATE about SET bio=?, name=?, dob=?, address=?, zip_code=?, email=?, phone=?, projects_completed=?, photo=? WHERE id=1',
+                      (bio, name, dob, address, zip_code, email, phone, projects_completed, photo_filename))
         else:
-            c.execute('''UPDATE about SET bio=?, name=?, dob=?, address=?, zip_code=?, email=?, phone=?, projects_completed=? WHERE id=1''', tuple(v for k, v in data.items()))
+            c.execute('UPDATE about SET bio=?, name=?, dob=?, address=?, zip_code=?, email=?, phone=?, projects_completed=? WHERE id=1',
+                      (bio, name, dob, address, zip_code, email, phone, projects_completed))
         conn.commit()
         flash('About section updated.')
         return redirect('/dashboard')
-    c.execute('SELECT bio, name, dob, address, zip_code, email, phone, projects_completed, photo FROM about WHERE id=1')
-    about = c.fetchone()
+    c.execute('SELECT * FROM about WHERE id=1')
+    about_data = c.fetchone()
     conn.close()
-    return render_template('edit_about.html', about={
-        'bio': about[0], 'name': about[1], 'dob': about[2], 'address': about[3],
-        'zip_code': about[4], 'email': about[5], 'phone': about[6],
-        'projects_completed': about[7], 'photo': about[8]
-    })
+    about_dict = {'bio': about_data[1], 'name': about_data[2], 'dob': about_data[3], 'address': about_data[4], 'zip_code': about_data[5], 'email': about_data[6], 'phone': about_data[7], 'projects_completed': about_data[8], 'photo': about_data[9]} if about_data else {}
+    return render_template('edit_about.html', about=about_dict)
 
-# ------------------ Admin: Projects ------------------
 @app.route('/admin/projects/edit', methods=['GET', 'POST'])
 @app.route('/admin/projects/edit/<int:project_id>', methods=['GET', 'POST'])
 def edit_projects(project_id=None):
-    if not session.get('admin'):
-        return redirect('/login')
-    
+    if not session.get('admin'): return redirect('/login')
     conn = get_db_connection()
     c = conn.cursor()
-
     if request.method == 'POST':
         pid = request.form.get('id')
         title = request.form['title']
@@ -209,54 +235,38 @@ def edit_projects(project_id=None):
         tools = request.form['tools']
         use_case = request.form['use_case']
         image_file = request.files.get('image')
-
         image_filename = None
         if image_file and image_file.filename:
             image_filename = image_file.filename
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
             image_file.save(image_path)
-
         if pid:
             if image_filename:
-                c.execute('''UPDATE projects SET title=?, description=?, tech_stack=?, github=?, demo=?, image=?, outcome=?, tools=?, use_case=? WHERE id=?''',
+                c.execute('UPDATE projects SET title=?, description=?, tech_stack=?, github=?, demo=?, image=?, outcome=?, tools=?, use_case=? WHERE id=?',
                           (title, desc, tech, github, demo, image_filename, outcome, tools, use_case, pid))
             else:
-                c.execute('''UPDATE projects SET title=?, description=?, tech_stack=?, github=?, demo=?, outcome=?, tools=?, use_case=? WHERE id=?''',
+                c.execute('UPDATE projects SET title=?, description=?, tech_stack=?, github=?, demo=?, outcome=?, tools=?, use_case=? WHERE id=?',
                           (title, desc, tech, github, demo, outcome, tools, use_case, pid))
             flash('Project updated successfully.')
         else:
-            c.execute('''INSERT INTO projects (title, description, tech_stack, github, demo, image, outcome, tools, use_case)
-                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+            c.execute('INSERT INTO projects (title, description, tech_stack, github, demo, image, outcome, tools, use_case) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                       (title, desc, tech, github, demo, image_filename, outcome, tools, use_case))
             flash('Project added successfully.')
-
         conn.commit()
         return redirect('/admin/projects/edit')
-
     project = {}
     if project_id:
         c.execute('SELECT * FROM projects WHERE id=?', (project_id,))
         row = c.fetchone()
-        if row:
-            project = {
-                'id': row[0], 'title': row[1], 'description': row[2],
-                'tech_stack': row[3], 'github': row[4], 'demo': row[5],
-                'image': row[6], 'outcome': row[7], 'tools': row[8], 'use_case': row[9]
-            }
-
+        if row: project = {'id': row[0], 'title': row[1], 'description': row[2], 'tech_stack': row[3], 'github': row[4], 'demo': row[5], 'image': row[6], 'outcome': row[7], 'tools': row[8], 'use_case': row[9]}
     c.execute('SELECT * FROM projects')
     rows = c.fetchall()
     conn.close()
-
-    return render_template('edit_projects.html',
-                           projects=[{'id': row[0], 'title': row[1]} for row in rows],
-                           edit_mode=bool(project_id),
-                           project=project)
+    return render_template('edit_projects.html', projects=[{'id': r[0], 'title': r[1]} for r in rows], edit_mode=bool(project_id), project=project)
 
 @app.route('/admin/projects/delete/<int:pid>')
 def delete_project(pid):
-    if not session.get('admin'):
-        return redirect('/login')
+    if not session.get('admin'): return redirect('/login')
     conn = get_db_connection()
     c = conn.cursor()
     c.execute('DELETE FROM projects WHERE id=?', (pid,))
@@ -265,19 +275,14 @@ def delete_project(pid):
     flash('Project deleted.')
     return redirect('/admin/projects/edit')
 
-# ------------------ Admin: Skills ------------------
 @app.route('/admin/skills/edit', methods=['GET', 'POST'])
 def edit_skills():
-    if not session.get('admin'):
-        return redirect('/login')
-
+    if not session.get('admin'): return redirect('/login')
     conn = get_db_connection()
     c = conn.cursor()
-
     if request.method == 'POST':
         name = request.form['name']
         image = request.files.get('image')
-
         if name and image and image.filename:
             filename = image.filename
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -285,10 +290,9 @@ def edit_skills():
             c.execute('INSERT INTO skills (name, image) VALUES (?, ?)', (name, filename))
             conn.commit()
             flash('Skill added successfully!')
-            return redirect('/admin/skills/edit')
         else:
             flash('Both name and image are required.')
-
+        return redirect('/admin/skills/edit')
     c.execute('SELECT * FROM skills')
     skills = c.fetchall()
     conn.close()
@@ -296,45 +300,149 @@ def edit_skills():
 
 @app.route('/delete_skill/<int:skill_id>')
 def delete_skill(skill_id):
+    if not session.get('admin'): return redirect('/login')
     conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT image FROM skills WHERE id=?", (skill_id,))
-    image = cursor.fetchone()
+    c = conn.cursor()
+    c.execute("SELECT image FROM skills WHERE id=?", (skill_id,))
+    image = c.fetchone()
     if image and image[0]:
         image_path = os.path.join(app.config['UPLOAD_FOLDER'], image[0])
-        if os.path.exists(image_path):
-            os.remove(image_path)
-
-    cursor.execute("DELETE FROM skills WHERE id=?", (skill_id,))
+        if os.path.exists(image_path): os.remove(image_path)
+    c.execute("DELETE FROM skills WHERE id=?", (skill_id,))
     conn.commit()
     conn.close()
-
     flash("Skill deleted successfully.")
     return redirect(url_for('edit_skills'))
 
-# ------------------ Admin: Resume ------------------
+@app.route('/admin/experience/edit', methods=['GET', 'POST'])
+def edit_experience():
+    if not session.get('admin'): return redirect('/login')
+    conn = get_db_connection()
+    c = conn.cursor()
+    if request.method == 'POST':
+        job_title = request.form['job_title']
+        company = request.form['company']
+        start_date = request.form['start_date']
+        end_date = request.form['end_date']
+        description = request.form['description']
+        c.execute('INSERT INTO experience (job_title, company, start_date, end_date, description) VALUES (?, ?, ?, ?, ?)',
+                  (job_title, company, start_date, end_date, description))
+        conn.commit()
+        flash('Experience added successfully.')
+        return redirect('/admin/experience/edit')
+    c.execute('SELECT * FROM experience')
+    experiences = c.fetchall()
+    conn.close()
+    return render_template('edit_experience.html', experiences=experiences)
+
+@app.route('/admin/experience/delete/<int:exp_id>')
+def delete_experience(exp_id):
+    if not session.get('admin'): return redirect('/login')
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('DELETE FROM experience WHERE id = ?', (exp_id,))
+    conn.commit()
+    conn.close()
+    flash('Experience entry deleted.')
+    return redirect('/admin/experience/edit')
+    
+@app.route('/admin/certificates/edit', methods=['GET', 'POST'])
+def edit_certificates():
+    if not session.get('admin'): return redirect('/login')
+    conn = get_db_connection()
+    c = conn.cursor()
+    if request.method == 'POST':
+        title = request.form['title']
+        issuer = request.form['issuer']
+        pdf_file = request.files.get('pdf_file')
+        if pdf_file and pdf_file.filename and pdf_file.filename.endswith('.pdf'):
+            filename = pdf_file.filename
+            filepath = os.path.join(app.config['CERTIFICATES_FOLDER'], filename)
+            pdf_file.save(filepath)
+            c.execute('INSERT INTO certificates (title, issuer, pdf_file) VALUES (?, ?, ?)', (title, issuer, filename))
+            conn.commit()
+            flash('Certificate added successfully.')
+        else:
+            flash('Invalid file. Please upload a PDF.')
+        return redirect('/admin/certificates/edit')
+    c.execute('SELECT * FROM certificates')
+    certificates = c.fetchall()
+    conn.close()
+    return render_template('edit_certificates.html', certificates=certificates)
+
+@app.route('/admin/certificates/delete/<int:cert_id>')
+def delete_certificate(cert_id):
+    if not session.get('admin'): return redirect('/login')
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT pdf_file FROM certificates WHERE id = ?', (cert_id,))
+    pdf_filename = c.fetchone()
+    if pdf_filename and pdf_filename[0]:
+        filepath = os.path.join(app.config['CERTIFICATES_FOLDER'], pdf_filename[0])
+        if os.path.exists(filepath): os.remove(filepath)
+    c.execute('DELETE FROM certificates WHERE id = ?', (cert_id,))
+    conn.commit()
+    conn.close()
+    flash('Certificate deleted.')
+    return redirect('/admin/certificates/edit')
+    
+@app.route('/admin/platforms/edit', methods=['GET', 'POST'])
+@app.route('/admin/platforms/edit/<int:platform_id>', methods=['GET', 'POST'])
+def edit_platforms(platform_id=None):
+    if not session.get('admin'): return redirect('/login')
+    conn = get_db_connection()
+    c = conn.cursor()
+    if request.method == 'POST':
+        pid = request.form.get('id')
+        name = request.form['name']
+        link = request.form['link']
+        description = request.form['description']
+        if pid:
+            c.execute('UPDATE technical_platforms SET name=?, link=?, description=? WHERE id=?', (name, link, description, pid))
+            flash('Platform updated successfully.')
+        else:
+            c.execute('INSERT INTO technical_platforms (name, link, description) VALUES (?, ?, ?)', (name, link, description))
+            flash('Platform added successfully.')
+        conn.commit()
+        return redirect(url_for('edit_platforms'))
+    platform_to_edit = None
+    if platform_id:
+        c.execute('SELECT * FROM technical_platforms WHERE id = ?', (platform_id,))
+        row = c.fetchone()
+        if row: platform_to_edit = {'id': row[0], 'name': row[1], 'link': row[2], 'description': row[3]}
+    c.execute('SELECT * FROM technical_platforms ORDER BY id DESC')
+    all_platforms = c.fetchall()
+    conn.close()
+    return render_template('edit_platforms.html', platform=platform_to_edit, platforms_list=all_platforms)
+
+@app.route('/admin/platforms/delete/<int:platform_id>')
+def delete_platform(platform_id):
+    if not session.get('admin'): return redirect('/login')
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('DELETE FROM technical_platforms WHERE id = ?', (platform_id,))
+    conn.commit()
+    conn.close()
+    flash('Platform link deleted.')
+    return redirect('/admin/platforms/edit')
+
 @app.route('/admin/upload_resume', methods=['GET', 'POST'])
 def upload_resume():
-    if not session.get('admin'):
-        return redirect('/login')
+    if not session.get('admin'): return redirect('/login')
     if request.method == 'POST':
         file = request.files.get('resume')
-        if file and file.filename.endswith('.pdf'):
-            path = os.path.join(app.config['RESUME_FOLDER'], 'Kiranya_Resume.pdf')
+        if file and file.filename and file.filename.endswith('.pdf'):
+            path = os.path.join(app.config['RESUME_FOLDER'], 'resume.pdf')
             file.save(path)
             flash('Resume uploaded successfully.')
             return redirect('/dashboard')
         else:
-            flash('Only PDF files allowed.')
-            return redirect('/admin/upload_resume')
+            flash('Only PDF files are allowed.')
     return render_template('upload_resume.html')
 
-# ------------------ Admin: Change Password ------------------
 @app.route('/admin/change_password', methods=['GET', 'POST'])
 def change_password():
-    if not session.get('admin'):
-        return redirect('/login')
+    if not session.get('admin'): return redirect('/login')
     conn = get_db_connection()
     c = conn.cursor()
     if request.method == 'POST':
@@ -352,7 +460,7 @@ def change_password():
         else:
             c.execute('UPDATE users SET username=?, password=? WHERE id=?', (new_username, new_password, user[0]))
             conn.commit()
-            flash('Username and password updated successfully.')
+            flash('Username and password updated successfully. Please log in again.')
             session.pop('admin', None)
             return redirect('/login')
     conn.close()
@@ -360,5 +468,7 @@ def change_password():
 
 # ------------------ Run App ------------------
 if __name__ == '__main__':
-    init_db()  # Ensure tables exist before running
+    # This ensures tables are created when the app starts, if they don't exist.
+    init_db()
     app.run(host='0.0.0.0', port=5000, debug=True)
+

@@ -1,0 +1,246 @@
+/* ==========================================================================
+   DASHBOARD PAGE (dashboard.css)
+   ========================================================================== */
+
+/* --- CSS Variables for consistent theming --- */
+:root {
+    --bg-dark-primary: #111827;      /* Dark background for the page */
+    --bg-dark-secondary: #1F2937;    /* Slightly lighter background for cards */
+    --primary-accent: #38BDF8;       /* A bright, modern accent color (light blue) */
+    --danger-accent: #F43F5E;        /* Red for logout/delete actions */
+    --text-primary: #F9FAFB;         /* White/off-white for main text */
+    --text-secondary: #9CA3AF;      /* Gray for paragraphs and subtitles */
+    --border-color: #374151;         /* Border color for cards */
+    --shadow-color: rgba(56, 189, 248, 0.1); /* Subtle shadow color matching the accent */
+    --border-radius-md: 12px;
+    --font-primary: 'Inter', sans-serif; /* Recommended to import in layout.html */
+}
+
+body {
+    background-color: var(--bg-dark-primary);
+    font-family: var(--font-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* --- Main Container & Header --- */
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 50px 24px;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.dashboard-header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.dashboard-header p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* --- Flashed Messages --- */
+.flashes {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.flash {
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-dark-secondary);
+}
+
+/* --- Card Grid Layout --- */
+.card-grid {
+    display: grid;
+    /* Responsive columns: 1 on small screens, adjusts up to 4 on large screens */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 32px; /* Increased space between cards */
+}
+
+/* --- Card Styling --- */
+.dashboard-card {
+    background-color: var(--bg-dark-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+.dashboard-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.dashboard-card p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 24px;
+    /* The flex-grow property has been removed to position the button right after this paragraph */
+}
+
+/* --- Card Buttons (Oval and Smaller) --- */
+.card-btn {
+    display: inline-block;
+    /* Removed width: 100% to allow for smaller, centered buttons */
+    text-align: center;
+    background-color: var(--primary-accent);
+    color: var(--bg-dark-primary);
+    padding: 8px 20px; /* Reduced padding for smaller button */
+    border-radius: 50px; /* Makes the button oval/pill shaped */
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    align-self: center; /* Centers the button horizontally within the flex container */
+    max-width: fit-content; /* Makes the button only as wide as its content */
+    font-size: 0.9rem; /* Slightly smaller font size for the button text */
+}
+
+.card-btn:hover {
+    background-color: #60cffc; /* Lighter shade on hover */
+    transform: scale(1.05); /* Slightly more pronounced hover effect */
+}
+
+.card-btn.logout {
+    background-color: var(--danger-accent);
+    color: var(--text-primary);
+}
+
+.card-btn.logout:hover {
+    backgro/* === DASHBOARD STYLING (Inspired by Reference Image) === */
+:root {
+    --bg-dark: #1C1E26;
+    --card-bg: #2A2D39;
+    --card-border: #4D5161;
+    --text-primary: #E1E3E8;
+    --text-secondary: #9DA1B0;
+    --gradient-start: #3A7BFD;
+    --gradient-end: #A33AFE;
+    --font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    font-family: var(--font-family);
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gradient-start);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card p {
+    flex-grow: 1; /* Pushes button to the bottom */
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+/* --- Gradient Button Styling --- */
+.btn {
+    display: inline-block;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    background-image: linear-gradient(to right, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    align-self: flex-start; /* Aligns button to the left */
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(163, 58, 254, 0.3);
+}
+
+/* --- Logout Button --- */
+.logout-btn {
+    background-image: none;
+    background-color: #e53e3e; /* Red color for logout */
+}
+
+.logout-btn:hover {
+    background-color: #c53030;
+    box-shadow: 0 5px 15px rgba(229, 62, 62, 0.3);
+}
+
+/* Flash Messages */
+.flash-messages {
+    padding: 15px;
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+    border-left: 4px solid var(--gradient-start);
+    border-radius: 5px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+und-color: #f87171; /* Lighter red on hover */
+}
+

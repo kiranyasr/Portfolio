@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--bg-dark-primary); /* Changed */
+  color: var(--text-primary); /* Changed */
   padding: 80px 60px;
   font-family: 'Poppins', sans-serif;
   flex-wrap: wrap;
@@ -52,13 +52,13 @@
   display: block;
   width: 60px;
   height: 3px;
-  background-color: #ffc107;
+  background-color: var(--primary-accent); /* Changed */
   margin-top: 6px;
 }
 
 .about-info .subtitle {
   margin: 10px 0 30px;
-  color: #c0c0c0;
+  color: var(--text-secondary); /* Changed */
   font-size: 14px;
   line-height: 1.5;
 }
@@ -77,20 +77,20 @@
 .about-info ul li strong {
   display: inline-block;
   width: 140px;
-  color: #ffffff;
+  color: var(--text-primary); /* Changed */
   font-weight: 600;
 }
 
 .about-info .projects {
   font-weight: 700;
-  color: #facc15;
+  color: var(--primary-accent); /* Changed */
   margin-bottom: 25px;
   font-size: 16px;
 }
 
 .download-btn {
-  background-color: #facc15;
-  color: #000000;
+  background-color: var(--primary-accent); /* Changed */
+  color: #000; /* Changed */
   font-weight: 600;
   padding: 10px 30px;
   border-radius: 30px;
@@ -99,13 +99,14 @@
 }
 
 .download-btn:hover {
-  background-color: #e6b800;
+  background-color: var(--primary-accent); /* Changed */
+  opacity: 0.9;
 }
 
 .section-title {
   text-align: center;
   margin: 60px 0 40px;
-  color: white;
+  color: var(--text-primary); /* Changed */
   font-size: 28px;
   position: relative;
   padding-bottom: 10px;
@@ -116,7 +117,7 @@
   display: block;
   width: 60px;
   height: 3px;
-  background-color: #ffc107;
+  background-color: var(--primary-accent); /* Changed */
   margin: 10px auto 0;
 }
 
@@ -128,11 +129,11 @@
 }
 
 .skill-card {
-  background-color: #1a1a1a;
+  background-color: var(--bg-dark-secondary); /* Changed */
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.05);
 }
 
 .skill-card img {
@@ -143,7 +144,7 @@
 }
 
 .skill-card h4 {
-  color: #ffcc00;
+  color: var(--primary-accent); /* Changed */
   font-size: 18px;
   margin: 0;
 }

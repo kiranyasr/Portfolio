@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block title %}Manage Home Page{% endblock %}
+{% block content %}
+<div class="container admin-form">
+    <h2>Manage Home Page Content</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <label for="greeting">Greeting Text</label>
+        <input type="text" name="greeting" value="{{ home.greeting }}" required>
+        
+        <label for="heading_prefix">Heading Prefix (e.g., "I Am")</label>
+        <input type="text" name="heading_prefix" value="{{ home.heading_prefix }}" required>
+
+        <label for="heading_name">Heading Name (the part in color)</label>
+        <input type="text" name="heading_name" value="{{ home.heading_name }}" required>
+        
+        <label for="paragraph">Introductory Paragraph</label>
+        <textarea name="paragraph" rows="4" required>{{ home.paragraph }}</textarea>
+        
+        <label for="hero_image">Hero Image</label>
+        <p>Current Image:</p>
+        {% if home.hero_image %}
+          <img src="{{ url_for('static', filename='images/' + home.hero_image) }}" alt="Current Hero Image" width="150">
+        {% else %}
+          <p>No image uploaded.</p>
+        {% endif %}
+        <p>Upload a new image (optional):</p>
+        <input type="file" name="hero_image" accept="image/*">
+        
+        <button type="submit">Update Home Page</button>
+    </form>
+</div>
+{% endblock %}

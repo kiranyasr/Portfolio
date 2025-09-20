@@ -2,24 +2,20 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-
 <section class="hero-section">
   <div class="hero-container">
-    <!-- LEFT SIDE TEXT -->
     <div class="hero-left">
-      <h4>HI THERE,</h4>
-      <h1>I Am <span>Kiranya S R</span></h1>
-      <p>
-        I’m an AI & ML enthusiast currently pursuing engineering. I love creating smart solutions using AI, building personal tech tools, and exploring new technologies.
-      </p>
+      <h4>{{ home.greeting }}</h4>
+      <h1>{{ home.heading_prefix }} <span>{{ home.heading_name }}</span></h1>
+      <p>{{ home.paragraph }}</p>
       <a href="{{ url_for('about') }}" class="btn">Learn More About Me</a>
     </div>
 
-    <!-- RIGHT SIDE IMAGE -->
     <div class="hero-right">
-      <img src="{{ url_for('static', filename='images/hero.jpg') }}" alt="Profile Image">
+      {% if home.hero_image %}
+        <img src="{{ url_for('static', filename='images/' + home.hero_image) }}" alt="Profile Image">
+      {% endif %}
     </div>
   </div>
 </section>
-
 {% endblock %}

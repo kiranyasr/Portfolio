@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block title %}Manage Experience{% endblock %}
+{% block content %}
+<div class="container admin-form">
+    <h2>Manage Experience</h2>
+    <form method="POST">
+        <label for="job_title">Job Title</label>
+        <input type="text" name="job_title" required>
+        <label for="company">Company</label>
+        <input type="text" name="company" required>
+        <label for="start_date">Start Date</label>
+        <input type="text" name="start_date">
+        <label for="end_date">End Date</label>
+        <input type="text" name="end_date">
+        <label for="description">Description</label>
+        <textarea name="description" rows="4"></textarea>
+        <button type="submit">Add Experience</button>
+    </form>
+    
+    <h3>Existing Experience</h3>
+    <ul>
+        {% for exp in experiences %}
+        <li>{{ exp[1] }} at {{ exp[2] }} <a href="/admin/experience/delete/{{ exp[0] }}">Delete</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

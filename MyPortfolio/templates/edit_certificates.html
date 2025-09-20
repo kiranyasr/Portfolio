@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block title %}Manage Certificates{% endblock %}
+{% block content %}
+<div class="container admin-form">
+    <h2>Manage Certificates</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="title">Certificate Title</label>
+        <input type="text" name="title" required>
+        <label for="issuer">Issuer (e.g., Coursera, Udemy)</label>
+        <input type="text" name="issuer" required>
+        <label for="pdf_file">Certificate PDF</label>
+        <input type="file" name="pdf_file" accept=".pdf" required>
+        <button type="submit">Add Certificate</button>
+    </form>
+    
+    <h3>Uploaded Certificates</h3>
+    <ul>
+        {% for cert in certificates %}
+        <li>{{ cert[1] }} - {{ cert[2] }} <a href="/admin/certificates/delete/{{ cert[0] }}">Delete</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

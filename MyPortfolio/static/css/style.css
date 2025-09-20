@@ -1,12 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
+/* --- New Design System Variables --- */
+:root {
+  --bg-dark-primary: #0a0f18;      /* Deepest background */
+  --bg-dark-secondary: #121826;  /* Card and navbar background */
+  --border-color: #2a3143;
+  --primary-accent: #00f5c4;       /* Main vibrant accent (teal) */
+  --text-primary: #e2e8f0;         /* Primary text (off-white) */
+  --text-secondary: #94a3b8;      /* Secondary text (light gray) */
+}
+
 /* Base & Reset */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #0f1117;
-  color: #e0e0e0;
+  background-color: var(--bg-dark-primary);
+  color: var(--text-primary);
 }
 
 /* Container */
@@ -19,8 +29,8 @@ body {
 
 /* Navbar */
 .navbar {
-  background-color: #141824;
-  color: #ffffff;
+  background-color: var(--bg-dark-secondary);
+  color: var(--text-primary);
   padding: 0.4rem 0;
   position: sticky;
   top: 0;
@@ -49,7 +59,7 @@ body {
 }
 
 .nav-links li a {
-  color: #e0e0e0;
+  color: var(--text-secondary);
   text-decoration: none;
   padding-bottom: 2px;
   font-size: 0.95rem;
@@ -57,20 +67,20 @@ body {
 }
 
 .nav-links li a:hover {
-  color: #4a90e2;
-  border-bottom: 2px solid #4a90e2;
+  color: var(--primary-accent);
+  border-bottom: 2px solid var(--primary-accent);
 }
 
 .nav-links li a.active {
-  color: #4a90e2;
+  color: var(--primary-accent);
   font-weight: 600;
-  border-bottom: 2px solid #4a90e2;
+  border-bottom: 2px solid var(--primary-accent);
 }
 
 /* Typography */
 h1, h2, h3, h4 {
   font-family: 'Poppins', sans-serif;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 0.5rem;
 }
 
@@ -80,8 +90,8 @@ main.container {
 }
 
 .hero-section {
-  background-color: #000;
-  color: #fff;
+  background-color: var(--bg-dark-primary);
+  color: var(--text-primary);
   padding: 30px 50px; /* reduced top-bottom padding */
   display: flex;
   align-items: center;
@@ -104,7 +114,7 @@ main.container {
 }
 
 .hero-left h4 {
-  color: #ffc107;
+  color: var(--primary-accent);
   font-size: 18px;
   margin-bottom: 10px;
 }
@@ -116,18 +126,18 @@ main.container {
 }
 
 .hero-left h1 span {
-  color: #ffc107;
+  color: var(--primary-accent);
 }
 
 .hero-left p {
   font-size: 18px;
   line-height: 1.6;
-  color: #ccc;
+  color: var(--text-secondary);
   margin-bottom: 30px;
 }
 
 .btn {
-  background-color: #ffc107;
+  background-color: var(--primary-accent);
   color: #000;
   padding: 12px 30px;
   border-radius: 50px;
@@ -138,7 +148,8 @@ main.container {
 }
 
 .btn:hover {
-  background-color: #e0a800;
+  background-color: var(--primary-accent);
+  opacity: 0.9;
 }
 
 .hero-right {
@@ -149,7 +160,7 @@ main.container {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #222;
+  background-color: var(--bg-dark-secondary);
 }
 
 .hero-right img {
@@ -158,7 +169,6 @@ main.container {
   object-fit: cover;
   border-radius: 10px;
 }
-
 
 /* Forms */
 form input,
@@ -169,175 +179,29 @@ form button {
   padding: 0.75rem;
   margin-bottom: 1rem;
   border-radius: 4px;
-  border: 1px solid #444;
-  background-color: #1c1f2b;
-  color: #e0e0e0;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-dark-secondary);
+  color: var(--text-primary);
 }
 
 form button {
-  background: #4a90e2;
-  color: white;
+  background: var(--primary-accent);
+  color: #000;
   border: none;
   cursor: pointer;
   transition: 0.3s;
 }
 
 form button:hover {
-  background: #357ab7;
+  opacity: 0.9;
 }
 
 /* Flash Message */
 .flash {
   list-style: none;
   padding: 1rem;
-  background-color: #333;
-  border-left: 5px solid #ffc107;
+  background-color: var(--bg-dark-secondary);
+  border-left: 5px solid var(--primary-accent);
   margin-bottom: 1rem;
-  color: #f1f1f1;
-}
-/* DARK DASHBOARD THEME */
-.dashboard-container.dark {
-  padding: 40px;
-  background-color: #121212;
-  min-height: 100vh;
-  color: #fff;
-}
-
-.dashboard-title {
-  text-align: center;
-  margin-bottom: 40px;
-  font-size: 2.5rem;
-  color: #ffffff;
-}
-
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  padding: 0 20px;
-}
-
-.card {
-  background-color: #1e1e1e;
-  border-radius: 10px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-  padding: 25px;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.card h3 {
-  color: #f0db4f;
-  margin-bottom: 10px;
-}
-
-.card p {
-  color: #cccccc;
-  font-size: 0.95rem;
-  margin-bottom: 20px;
-}
-
-.btn {
-  display: inline-block;
-  background-color: #00bcd4;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.3s;
-}
-
-.btn:hover {
-  background-color: #0097a7;
-}
-
-.logout-btn {
-  background-color: #e53935;
-}
-
-.logout-btn:hover {
-  background-color: #c62828;
-}
-/* ====== Global Reset ====== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* ====== Body ====== */
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #0b0c10;
-  color: #fff;
-}
-
-/* ====== Login Container ====== */
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Push to top instead of center */
-  height: 100vh;
-  padding-top: 60px; /* Reduced space above */
-  background-color: #0b0c10;
-}
-
-/* ====== Login Box ====== */
-.login-box {
-  background-color: #1c1c1c;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-  width: 100%;
-  max-width: 400px;
-}
-
-/* ====== Heading ====== */
-.login-box h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #f9d923;
-  font-size: 28px;
-  font-weight: 700;
-}
-
-/* ====== Input Fields ====== */
-.login-box input[type="text"],
-.login-box input[type="password"] {
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 8px;
-  background-color: #2e2e2e;
-  color: #ddd;
-  font-size: 15px;
-}
-
-/* Placeholder style */
-.login-box input::placeholder {
-  color: #999;
-}
-
-/* ====== Login Button ====== */
-.login-box button {
-  width: 100%;
-  padding: 12px;
-  background-color: #00d1ff;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.login-box button:hover {
-  background-color: #00b0d6;
+  color: var(--text-primary);
 }

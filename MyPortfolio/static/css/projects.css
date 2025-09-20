@@ -13,13 +13,13 @@
 
 /* PROJECT CARD */
 .project-card {
-  background-color: #1e1e1e;
+  background-color: var(--bg-dark-secondary); /* Changed */
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: #f1f1f1;
+  color: var(--text-primary); /* Changed */
   display: flex;
   flex-direction: column;
   height: 260px; /* Taller card to support bigger image */
@@ -33,7 +33,7 @@
   object-fit: cover;
   border-radius: 12px 12px 0 0;
   padding: 6px;
-  background-color: #333;
+  background-color: var(--border-color); /* Changed */
   box-sizing: border-box;
 }
 
@@ -43,8 +43,8 @@
   padding: 2px 6px; /* ✅ Very tight spacing */
   font-size: 0.95rem; /* Optional: smaller font */
   font-weight: 600;
-  color: #fff;
-  background-color: #2a2a2a;
+  color: var(--text-primary); /* Changed */
+  background-color: var(--bg-dark-secondary); /* Changed */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +76,7 @@
 
 /* POPUP BOX */
 .popup-content {
-  background: #2b2b2b;
+  background: var(--bg-dark-secondary); /* Changed */
   padding: 30px 25px;
   border-radius: 16px;
   max-width: 600px;
@@ -84,13 +84,13 @@
   position: relative;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
   animation: popFade 0.3s ease;
-  color: #eee;
+  color: var(--text-primary); /* Changed */
 }
 
 .popup-content h2 {
   margin-top: 0;
   font-size: 1.8rem;
-  color: #fff;
+  color: var(--text-primary); /* Changed */
   margin-bottom: 10px;
 }
 
@@ -98,11 +98,11 @@
   margin: 10px 0;
   font-size: 1rem;
   line-height: 1.6;
-  color: #ccc;
+  color: var(--text-secondary); /* Changed */
 }
 
 .popup-content a {
-  color: #4dabf7;
+  color: var(--primary-accent); /* Changed */
   text-decoration: none;
 }
 .popup-content a:hover {
@@ -115,11 +115,11 @@
   top: 12px;
   right: 16px;
   font-size: 28px;
-  color: #ccc;
+  color: var(--text-secondary); /* Changed */
   cursor: pointer;
 }
 .close-btn:hover {
-  color: #fff;
+  color: var(--text-primary); /* Changed */
 }
 
 /* ANIMATION */
